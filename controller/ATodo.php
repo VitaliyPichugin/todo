@@ -1,7 +1,7 @@
 <?php
 
 //require_once '../model/Model.php';
-require_once '../model/Model.php';
+
 abstract class ATodo extends Model
 {
     public function __construct()

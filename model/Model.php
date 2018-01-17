@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Виталий
- * Date: 16.01.2018
- * Time: 23:31
- */
 
  class Model
 {
@@ -19,9 +13,7 @@
             exit();
         }
 
-        /* изменяем текущую базу данных на world */
         $this->db->select_db("todo");
-
 
         $this->db->close();
 
