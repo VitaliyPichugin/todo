@@ -1,14 +1,47 @@
 body{
     width: 100%;
     height: 100%;
+    background-color: #d9d9d9;
+}
+
+ul{
+    margin-top: 2px;
+}
+
+img{
+    width:  40px!important;
+}
+
+canvas{
+    margin: 0;
+    padding: 0;
+}
+
+li:hover{
+    background-color: #d9d9d9;
 }
 
 .navbar{
     width: 100%;
-    background-color: aqua;
+    background-color: cornflowerblue;
+    border: none;
 }
 
 .content{
+    margin: 0 15% 0 15%;
+}
 
+.container{
+    margin-bottom: 0;
+}
 
+.tbl{
+    background-color: white;
+    height: 100%;
+}
+
+.tbl-left{
+    background-color: #d9d9d9;
+    border: none;
+    text-align: center
 }
