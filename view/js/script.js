@@ -1,20 +1,36 @@
-function circle(color)
-{
-    var canvas = document.getElementById('circle');
-    var obCanvas = canvas.getContext('2d');
+jQuery(document).ready(function ($) {
+    $('body').append('<canvas style="width: 50px; display: none" id="canvas"></canvas>');
+    $(function(){
+       $('.content-center').css('height', $(window).height() + 'px');
+        $(window).resize(function() {
+            $('.content-center').css('height', $(window).height() + 'px');
+        });
+    });
+    var c = draw('rectangle', 'grey');
 
-    obCanvas.beginPath();
-    obCanvas.arc(150, 75, 50, 0, 2*Math.PI, false);
-    obCanvas.fillStyle = color;
-    obCanvas.fill();
-    obCanvas.lineWidth = 1;
-    obCanvas.strokeStyle = color;
-    obCanvas.stroke();
+    $('.add_task').click(function () {
+        $('.hide_form_task').css('display', 'block');
+        $('.add_task').css('display', 'none');
+    });
 
-    var circle = canvas.toDataURL("image/png");
+    $('.add_project').click(function () {
+        $('.hide_form_project').css('display', 'block');
+        $('.add_project').css('display', 'none');
+    });
 
-    return circle;
-}
+    $('.project_cancel').click(function (e) {
+       e.preventDefault();
+        $('.hide_form_project').css('display', 'none');
+        $('.add_project').css('display', 'block');
+    });//task_cancel
+
+    $('.task_cancel').click(function (e) {
+        e.preventDefault();
+        $('.hide_form_task').css('display', 'none');
+        $('.add_task').css('display', 'block');
+    });//task_cancel
+
+});
 
 function draw(figure, color) {
     var canvas = document.getElementById('canvas');
@@ -38,18 +54,3 @@ function draw(figure, color) {
         return circle;
     }
 }
-
-jQuery(document).ready(function ($) {
-    $('body').append('<canvas style="width: 50px; display: none" id="canvas"></canvas>');
-    $(function(){
-       $('.content-center').css('height', $(window).height() + 'px');
-        $(window).resize(function() {
-            $('.content-center').css('height', $(window).height() + 'px');
-        });
-    });
-
-   //var c = circle('green');
-    var c = draw('rectangle', 'grey');
-    console.log(c);
-
-});
