@@ -21,6 +21,20 @@ li:hover{
     background-color: #d9d9d9;
 }
 
+.btn-left{
+    float: left;
+    width: 80%;
+}
+
+.inpt_task{
+    padding: 0;
+    margin: 0 0 5px 0;
+}
+
+.btn-right{
+    float: right;
+}
+
 .navbar{
     width: 100%;
     background-color: cornflowerblue;
@@ -51,4 +65,12 @@ li:hover{
 }
 .add_task:hover{
    cursor: pointer;
+}
+
+.type_priority, .type_project:hover{
+    cursor: pointer;
+}
+
+.modal_project{
+    position: fixed;
 }
