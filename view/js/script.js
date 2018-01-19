@@ -1,4 +1,5 @@
 jQuery(document).ready(function ($) {
+
     $(function(){
        $('.content-center').css('height', $(window).height() + 'px');
         $(window).resize(function() {
@@ -42,6 +43,33 @@ jQuery(document).ready(function ($) {
         $('.hide_form_task').css('display', 'none');
         $('.add_task').css('display', 'block');
     });//task_cancel
+
+    $('#login').click(function (e) {
+        $('.hide_reg').css('display', 'none');
+        $('.hide_login').css('display', 'block');
+    });
+    $('#registration').click(function () {
+        $('.hide_reg').css('display', 'block');
+        $('.hide_login').css('display', 'none');
+    });
+
+    $('#color-picker').iris({
+        change: function (e, u) {
+            $(this).css( 'background-color', u.color.toString());
+            $('#color_hex').val(u.color.toString());
+        }
+    });
+    $(document).click(function (e) {
+        if (!$(e.target).is(".colour-picker, .iris-picker, .iris-picker-inner")) {
+            $('#color-picker').iris('hide');
+            return false;
+        }
+    });
+    $('#color-picker').click(function () {
+        $('#color-picker').iris('hide');
+        $(this).iris('show');
+        return false;
+    });
 
 });
 

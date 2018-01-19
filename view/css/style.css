@@ -71,6 +71,44 @@ li:hover{
     cursor: pointer;
 }
 
+/*************************/
+.vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+}
+.vertical-align-center {
+    display: table-cell;
+    vertical-align: middle;
+}
+.modal-content{
+    width:inherit;
+    height:inherit;
+    margin: 0 auto;
+}
+/*************************/
+
 .modal_project{
     position: fixed;
 }
+
+.form form {
+    width: 300px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+.input_form{
+    margin-bottom: 5px;
+}
+
+.sign>input{
+    padding: 10px;
+    width: 200px;
+    margin-bottom: 15px;
+}
+
+.hide_login, .hide_reg{
+    display: none;
+}
+
