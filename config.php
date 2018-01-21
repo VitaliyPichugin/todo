@@ -1,7 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Виталий
- * Date: 17.01.2018
- * Time: 0:18
- */
+
+// для подключения к бд
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'todo');

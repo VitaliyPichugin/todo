@@ -4,26 +4,15 @@
 
 abstract class ATodo extends Model
 {
+    protected $con;
     public function __construct()
     {
-        $this->db = new mysqli('localhost', 'mysql', '1111', 'todo');
-
+        $this->con = new Model(DB_HOST, DB_USER, DB_PASS, DB_NAME);
     }
 
     abstract public function templateMethod();
 
-}
+    abstract function render($tenplate, $content, $data=null);
 
-class Today extends ATodo {
-    public function templateMethod()
-    {
-        // TODO: Implement templateMethod() method.
-    }
-}
 
-class SevenDay extends ATodo {
-    public function templateMethod()
-    {
-        // TODO: Implement templateMethod() method.
-    }
 }

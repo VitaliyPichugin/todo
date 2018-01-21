@@ -1,4 +1,5 @@
 jQuery(document).ready(function ($) {
+
     $(function(){
        $('.content-center').css('height', $(window).height() + 'px');
         $(window).resize(function() {
@@ -32,16 +33,60 @@ jQuery(document).ready(function ($) {
     });
 
     $('.project_cancel').click(function (e) {
-       e.preventDefault();
+      // e.preventDefault();
         $('.hide_form_project').css('display', 'none');
         $('.add_project').css('display', 'block');
     });//task_cancel
 
     $('.task_cancel').click(function (e) {
-        e.preventDefault();
+       // e.preventDefault();
         $('.hide_form_task').css('display', 'none');
         $('.add_task').css('display', 'block');
     });//task_cancel
+
+   $('#color-picker').colorpicker({
+       format: 'hex'
+      }).on('colorpickerChange colorpickerCreate', function (e) {
+           e.color.tetrad().forEach(function () {
+               $('#color-picker').css({
+                   backgroundColor: $('#color-picker').val(),
+                   color: $('#color-picker').val()
+               });
+               $('#color_hex').val($('#color-picker').val());
+
+           });
+       });
+
+   var toDay = $.datepicker.formatDate( "dd M", new Date());
+   $('#tday').html(toDay);
+   $("#datepicker").datepicker({
+       dateFormat: 'dd M'
+   }).val(toDay);
+
+   $('[name=addProject]').click(function (e) {
+       e.preventDefault();
+       var color = $('#color_hex').val();
+       var src = draw('rectangle', color);
+       if($('[name=add_project]').val() != '' ){
+            $.ajax({
+                method: 'POST',
+                url: 'index.php',
+                data: {
+                    addProject: 'send',
+                    add_project: $('[name=add_project]').val(),
+                    type: src
+                },
+                success: function (html) {
+                    $('body').html(html);
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            });
+       }else {
+           $('[name=add_project]').css('border-color', 'red');
+       }
+   });
 
 });
 
@@ -49,8 +94,8 @@ function draw(figure, color) {
     var canvas ;
         switch (figure){
             case 'circle':
-                jQuery('body').append('<canvas style="width: 40px;  display: none" id="canvas"></canvas>');
-                 canvas = document.getElementById('canvas');
+                jQuery('body').append('<canvas style="width: 40px;  display: none" id="canvas_circle"></canvas>');
+                 canvas = document.getElementById('canvas_circle');
                  context = canvas.getContext('2d');
                 context.beginPath();
                 context.arc(150, 75, 50, 0, 2*Math.PI, false);
@@ -58,8 +103,8 @@ function draw(figure, color) {
                 context.fill();
                 break;
             case 'rectangle':
-                jQuery('body').append('<canvas style="width: 40px;  display: none" id="canvas"></canvas>');
-                 canvas = document.getElementById('canvas');
+                jQuery('body').append('<canvas style="width: 40px;  display: none" id="canvas_rect"></canvas>');
+                 canvas = document.getElementById('canvas_rect');
                  context = canvas.getContext('2d');
                 context.rect(120,25,100,100);
                 context.fillStyle = color;
