@@ -14,7 +14,7 @@ class Today extends ATodo
     {
         $this->id = $this->con->getUserId();
         $this->projectAdd();
-
+        $this->taskAdd();
         return $this->render('template', 'today.php', array(
                 'project' => $this->getProject(),
                 'task' => $this->getTask(),
@@ -37,7 +37,7 @@ class Today extends ATodo
 
     function getTask()
     {
-        return $this->con->selectDatatUser($this->id, 'task');
+        return $this->con->selectDatatUser($this->id, 'task', date('d.m.Y'));
     }
 
     function userId()
@@ -48,6 +48,12 @@ class Today extends ATodo
     function projectAdd(){
         if($_POST['addProject'] ){
             $this->con->addProject($this->id, $_POST['add_project'], $_POST['type']);
+        }
+    }
+
+    function taskAdd(){
+        if($_POST['addTask'] ){
+            $this->con->addTask($this->id, $_POST['add_task'], $_POST['priority_id'], $_POST['project_id'], $_POST['date']);
         }
     }
 

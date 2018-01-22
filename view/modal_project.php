@@ -11,7 +11,7 @@
                     <ul class="list-group"  >
                         <? if($data['project']): ?>
                             <?foreach ($data['project'] as $key=> $val):?>
-                                <li class="list-group-item list_project" id="<?= $val['id']?>">
+                                <li class="list-group-item list_project_modal" id="<?= $val['id']?>">
                                     <a >
                                         <img  src="<?=$val['type']?>">
                                         <?= $val['name_project']?>
@@ -23,8 +23,8 @@
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary">Выбрать</button>
+                    <button type="button" class="btn btn-default " data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary add_type_project" data-dismiss="modal">Выбрать</button>
                 </div>
             </div>
         </div>

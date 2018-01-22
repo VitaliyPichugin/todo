@@ -14,7 +14,7 @@
                         <ul class="list-group"  >
                             <? if($data['priority']): ?>
                                 <?foreach ($data['priority'] as $key=> $val):?>
-                                    <li class="list-group-item list_priority" id="<?=$val['id']?>">
+                                    <li class="list-group-item list_priority_modal" id="<?=$val['id']?>">
                                         <a >
                                             <img  src="<?=$val['type']?>"><a href="index.php"><?= $val['name']?></a>
                                         </a>
@@ -26,7 +26,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary">Выбрать</button>
+                    <button type="button" class="btn btn-primary add_type_priority" data-dismiss="modal">Выбрать</button>
                 </div>
             </div>
         </div>

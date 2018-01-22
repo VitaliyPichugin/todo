@@ -32,9 +32,10 @@
                     <div class="col-md-12 inpt_task">
                         <input type="text" style="width: 80%" name="add_task" class="form-control">
                         <input type="text" style="width: 20%;  float: right" name="task_date" id="datepicker"  class="form-control" >
+                        <input type = "hidden" name = "datepicker" >
                     </div>
                     <div class="btn-left">
-                        <button style="float: left" type="submit" class="btn">Add</button>
+                        <button style="float: left" type="submit" name="addTask" class="btn">Add</button>
                         <a style="float: left; margin-right: 5px" class="btn task_cancel">Cancel</a>
                     </div>
                     <div class="btn-right">

@@ -19,7 +19,6 @@
              $this->con = new mysqli($this->host, $this->user, $this->pass, $this->db);
              if ($this->con) {
                  $this->con->query('SET NAMES utf8');
-                // return $this->con;
              }
          }
      }
@@ -60,20 +59,29 @@
          }else return true;
      }
 
-     protected function selectDatatUser($id=null, $data)
+     protected function selectDatatUser($id=null, $data, $date=null)
      {
-         if($id != null){
-             $results = $this->con->query("SELECT * FROM $data WHERE user_id =".$id);
+         if($id != null && $date != null){
+             $results = $this->con->query("SELECT * FROM $data WHERE `user_id` = $id 
+                      AND `date` <='$date'  ORDER BY `priority_id` DESC");
          }else{
              $results = $this->con->query("SELECT * FROM $data");
          }
-
          $res = [];
          while($row = $results->fetch_array()) {
              $res[] = $row;
 
          }
          return $res;
+     }
+
+     protected function getUserId()
+     {
+         $login = $_SESSION['user']['login'];
+         $pass = $_SESSION['user']['password'];
+         $results = $this->con->query("SELECT id FROM user WHERE login = '$login' AND password = '$pass' ");
+         $res = $results->fetch_array();
+         return $res[0];
      }
 
      protected function addProject($userId, $projectName, $type){
@@ -86,19 +94,16 @@
          }else return true;
      }
 
-     protected function getUserId()
-     {
-         $login = $_SESSION['user']['login'];
-         $pass = $_SESSION['user']['password'];
-         $results = $this->con->query("SELECT id FROM user WHERE login = '$login' AND password = '$pass' ");
-         $res = $results->fetch_array();
-         return $res[0];
+     protected function addTask($userId, $nameTask, $priorityId, $projectId, $date){
+         $stmt = $this->con->stmt_init();
+         if(($stmt->prepare("INSERT INTO `task` (`user_id`, `name_task`, `priority_id`, `project_id`, `date`) 
+                                  VALUES (?, ?, ?, ?, ?)") === FALSE)
+             or ($stmt->bind_param('isiis', $userId, $nameTask, $priorityId, $projectId, $date) === FALSE)
+             or ($stmt->execute() === FALSE)
+         ) {
+             die('Error (' . $stmt->errno . ') ' . $stmt->error);
+         }else return true;
      }
-
-     protected function addTask(){
-
-     }
-
 
      public function debug($arr){
          echo '<pre>';

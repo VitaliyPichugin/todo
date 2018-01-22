@@ -57,16 +57,37 @@ jQuery(document).ready(function ($) {
            });
        });
 
-   var toDay = $.datepicker.formatDate( "dd M", new Date());
+    var toDay = $.datepicker.formatDate( "dd M", new Date());
+    var toDayField = $.datepicker.formatDate( "dd.mm.yy", new Date());
+    $('[name = datepicker]').val(toDayField);
    $('#tday').html(toDay);
    $("#datepicker").datepicker({
-       dateFormat: 'dd M'
+       altField: "[name = datepicker]",
+       altFormat: "dd.mm.yy",
+       dateFormat: 'dd M',
+       constrainInput: true
    }).val(toDay);
+
+    $('.list_project_modal, .list_priority_modal').each(function (e, i) {
+       $(this).click(function () {
+           $('.list_project_modal, .list_priority_modal').css('background-color', 'white').removeClass('selected_modal');
+           $(this).css('background-color', 'grey').addClass('selected_modal');
+        });
+    });
+
+    $('.add_type_project').click(function () {
+        $('[name=task_project]').val($('.selected_modal').attr('id'));
+
+    });
+    $('.add_type_priority').click(function () {
+        $('[name=task_priority]').val($('.selected_modal').attr('id'));
+
+    });
 
    $('[name=addProject]').click(function (e) {
        e.preventDefault();
        var color = $('#color_hex').val();
-       var src = draw('rectangle', color);
+       var src = draw('circle', color);
        if($('[name=add_project]').val() != '' ){
             $.ajax({
                 method: 'POST',
@@ -87,6 +108,31 @@ jQuery(document).ready(function ($) {
            $('[name=add_project]').css('border-color', 'red');
        }
    });
+
+    $('[name=addTask]').click(function (e) {
+        e.preventDefault();
+        if($('[name=add_task]').val() != '' ){
+            $.ajax({
+                method: 'POST',
+                url: 'index.php',
+                data: {
+                    addTask: 'send',
+                    add_task: $('[name=add_task]').val(),
+                    priority_id:  $('[name=task_priority]').val(),
+                    project_id: $('[name=task_project]').val(),
+                    date: $('[name = datepicker]').val()
+                },
+                success: function (html) {
+                    $('body').html(html);
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            });
+        }else {
+            $('[name=add_task]').css('border-color', 'red');
+        }
+    });
 
 });
 

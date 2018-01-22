@@ -21,12 +21,9 @@ if(!$_SESSION['auth']){
     $obj = new Auth();
 
     echo  $obj->templateMethod();
-   // $obj->user();
     $pattern1 = '/^\/[a-z]*\/$/';
     $pattern2 = '/^\/[a-z]*$/';
 
- /*   $cls = substr($_SERVER['REQUEST_URI'], '0');
-    echo $cls;*/
     exit;
 }
 else {

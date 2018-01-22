@@ -43,7 +43,6 @@
     </div>
     <?php require_once 'modal_project.php';?>
     <?php require_once 'modal_priority.php';?>
-    <?php require_once 'footer.php';?>
     <!--Dynamic template-->
    <? require_once 'view/'.$content; ?>
 </div>
@@ -52,4 +51,4 @@
 <div style="display: none" class="modal_priority modal-form">
 
 </div>
-
+<?php require_once 'footer.php';?>

@@ -28,7 +28,6 @@ class Auth extends ATodo
         include('view/'.$tenplate.'.php');
         return ob_get_clean();
     }
-
     function userLogin()
     {
         if ($_POST['log'] == 'send_log') {
@@ -38,10 +37,8 @@ class Auth extends ATodo
                 $_SESSION['auth'] = true;
                 header('Location: http://todo/');
             }
-
         }
     }
-
     function userRegistration(){
         if ($_POST['reg'] == 'send_reg') {
             if ($_POST['login_register'] && $_POST['pass_register'] == $_POST['re_pass_register']) {
