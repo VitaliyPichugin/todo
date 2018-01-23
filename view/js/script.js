@@ -1,25 +1,18 @@
 jQuery(document).ready(function ($) {
 
-   $('.content-center').css('height', $(window).height() + 'px');
+    $('.content-center').css('height', $(window).height() + 'px');
+    window.addEventListener('load', function () {
+        $('.content-center').css('height', $(window).height() + 'px');
 
-    $(window).resize(function() {
+    });
+    window.addEventListener('resize', function () {
         $('.content-center').css('height', $(window).height() + 'px');
     });
-
 
     $('#canvas').css({
         width: '500px',
         height: '500px'
     });
-
-/*    $('.add_task').click(function () {
-        $('.hide_form_task').css('display', 'block');
-        $('.add_task').css('display', 'none');
-
-        $('.type_priority').attr('src', draw('thunder', 'black'));
-        $('.type_project').attr('src', draw('smile', 'black'));
-
-    });*/
 
     $('.content').on('click', '.add_task', function () {
         $('.hide_form_task').css('display', 'block');
@@ -30,21 +23,17 @@ jQuery(document).ready(function ($) {
 
     });
 
-/*    $('.type_project').click(function () {
-        $('.modal_project').css('display', 'block');
-
-    });*/
 
     $('.content').on('click', '.type_project', function () {
         $('.modal_project').css('display', 'block');
 
     });
 
-/*    $('.add_project').click(function () {
-        $('.hide_form_project').css('display', 'block');
-        $('.add_project').css('display', 'none');
+    /*    $('.add_project').click(function () {
+            $('.hide_form_project').css('display', 'block');
+            $('.add_project').css('display', 'none');
 
-    });*/
+        });*/
 
     $('.content').on('click', '.add_project', function () {
         $('.hide_form_project').css('display', 'block');
@@ -52,11 +41,11 @@ jQuery(document).ready(function ($) {
 
     });
 
-/*    $('.project_cancel').click(function (e) {
-      // e.preventDefault();
-        $('.hide_form_project').css('display', 'none');
-        $('.add_project').css('display', 'block');
-    });//task_cancel*/
+    /*    $('.project_cancel').click(function (e) {
+          // e.preventDefault();
+            $('.hide_form_project').css('display', 'none');
+            $('.add_project').css('display', 'block');
+        });//task_cancel*/
 
     $('.content').on('click', '.project_cancel', function () {
         $('.hide_form_project').css('display', 'none');
@@ -64,11 +53,11 @@ jQuery(document).ready(function ($) {
 
     });
 
-/*    $('.task_cancel').click(function (e) {
-       // e.preventDefault();
-        $('.hide_form_task').css('display', 'none');
-        $('.add_task').css('display', 'block');
-    });//task_cancel*/
+    /*    $('.task_cancel').click(function (e) {
+           // e.preventDefault();
+            $('.hide_form_task').css('display', 'none');
+            $('.add_task').css('display', 'block');
+        });//task_cancel*/
 
     $('.content').on('click', '.task_cancel', function () {
         $('.hide_form_task').css('display', 'none');
@@ -76,70 +65,75 @@ jQuery(document).ready(function ($) {
 
     });
 
-   $('#color-picker').colorpicker({
-       format: 'hex'
-      }).on('colorpickerChange colorpickerCreate', function (e) {
-           e.color.tetrad().forEach(function () {
-               $('#color-picker').css({
-                   backgroundColor: $('#color-picker').val(),
-                   color: $('#color-picker').val()
-               });
-               $('#color_hex').val($('#color-picker').val());
+    $('#color-picker').colorpicker({
+        format: 'hex'
+    }).on('colorpickerChange colorpickerCreate', function (e) {
+        e.color.tetrad().forEach(function () {
+            $('#color-picker').css({
+                backgroundColor: $('#color-picker').val(),
+                color: $('#color-picker').val()
+            });
+            $('#color_hex').val($('#color-picker').val());
 
-           });
-       });
+        });
+    });
 
-    var toDay = $.datepicker.formatDate( "dd M", new Date());
-    var toDayField = $.datepicker.formatDate( "dd.mm.yy", new Date());
+    var toDay = $.datepicker.formatDate("dd M", new Date());
+    var toDayField = $.datepicker.formatDate("dd.mm.yy", new Date());
     $('[name = datepicker]').val(toDayField);
-   $('#tday').html(toDay);
+    $('#tday').html(toDay);
 
 
-
-    //$('body').on('load', '#datepicker', function () {
-        $("#datepicker").datepicker({
+    window.addEventListener('click', function () {
+        jQuery("#datepicker").datepicker({
             altField: "[name = datepicker]",
             altFormat: "dd.mm.yy",
             dateFormat: 'dd M',
             constrainInput: true
         }).val(toDay);
+    });
 
 
-    $('.list_project_modal, .list_priority_modal').each(function (e, i) {
+/*    $('.list_project_modal, .list_priority_modal').each(function (e, i) {
         $(this).click(function () {
             $('.list_project_modal, .list_priority_modal').css('background-color', 'white').removeClass('selected_modal');
             $(this).css('background-color', 'grey').addClass('selected_modal');
         });
-    });
-
-/*    $('body').on('click', '.add_type_project', function () {
-        $('[name=task_project]').val($('.selected_modal').attr('id'));
-
     });*/
 
-/*    $('.add_type_project').click(function () {
-        $('[name=task_project]').val($('.selected_modal').attr('id'));
+    window.addEventListener('click', function () {
+        $('.list_project_modal').each(function () {
+            $(this).click(function () {
+                $('.list_project_modal').css('background-color', 'white').removeClass('selected_modal_project');
+                $(this).css('background-color', 'grey').addClass('selected_modal_project');
+            });
+            $('[name=task_project]').val($('.selected_modal_project').attr('id'));
+        });
 
-    });*/
-    $('body').on('click', '.add_type_project', function () {
-        $('[name=task_project]').val($('.selected_modal').attr('id'));
+        $('.list_priority_modal').each(function () {
+            $(this).click(function () {
+                $('.list_priority_modal').css('background-color', 'white').removeClass('selected_modal_priority');
+                $(this).css('background-color', 'grey').addClass('selected_modal_priority');
+            });
+            $('[name=task_priority]').val($('.selected_modal_priority').attr('id'));
+        });
 
-    });
-
-/*    $('.add_type_priority').click(function () {
-        $('[name=task_priority]').val($('.selected_modal').attr('id'));
-
-    });*/
-    $('body').on('click', '.add_type_priority', function () {
-        $('[name=task_priority]').val($('.selected_modal').attr('id'));
 
     });
 
-   $('[name=addProject]').click(function (e) {
-       e.preventDefault();
-       var color = $('#color_hex').val();
-       var src = draw('circle', color);
-       if($('[name=add_project]').val() != '' ){
+    window.addEventListener('click', function () {
+     /*   $(this).click(function () {
+            $('.list_priority_modal').css('background-color', 'white');
+            $(this).css('background-color', 'grey').addClass('selected_modal_priority');
+        });
+        $('[name=task_priority]').val($('.selected_modal_priority').attr('id'));*/
+    });
+
+    $('[name=addProject]').click(function (e) {
+        e.preventDefault();
+        var color = $('#color_hex').val();
+        var src = draw('circle', color);
+        if ($('[name=add_project]').val() != '') {
             $.ajax({
                 method: 'POST',
                 url: 'index.php',
@@ -155,69 +149,48 @@ jQuery(document).ready(function ($) {
                     console.log(e)
                 }
             });
-       }else {
-           $('[name=add_project]').css('border-color', 'red');
-       }
-   });
-
-
+        } else {
+            $('[name=add_project]').css('border-color', 'red');
+        }
+    });
 
     $('[name=addTask]').click(function (e) {
         e.preventDefault();
-        if($('[name=add_task]').val() != '' ){
+        if ($('[name=add_task]').val() != '') {
             $.ajax({
                 method: 'POST',
                 url: 'index.php',
                 data: {
                     addTask: 'send',
                     add_task: $('[name=add_task]').val(),
-                    priority_id:  $('[name=task_priority]').val(),
+                    priority_id: $('[name=task_priority]').val(),
                     project_id: $('[name=task_project]').val(),
                     date: $('[name = datepicker]').val()
                 },
                 success: function (html) {
-                    $('body').html(html);
+                    var doom = '<html>' + html;
+                    var res_task = $(doom).find('#reload_task');//reload_project
+                    $('#reload_task').html(res_task);
+
+                    var res_proj = $(doom).find('#reload_project');//reload_project
+                    $('#reload_project').html(res_proj);
+                   // $(doom).find('.link_cnt').each(function () {
+                        //$('.link_cnt').html($(this).html());
+                      //  var link_cnt = $(this).html();
+                       /* $('.link_cnt').each(function () {
+                            $(this).html(link_cnt);
+                        });*/
+                  //  });
+                   // $('#reload_project').html(res_proj);
                 },
                 error: function (e) {
                     console.log(e)
                 }
             });
-        }else {
+        } else {
             $('[name=add_task]').css('border-color', 'red');
         }
     });
-
-    $('.link_task').each(function () {
-        $(this).click(function () {
-            $.ajax({
-                method: 'GET',
-                url: 'index.php',
-                data: {
-                    id: $(this).attr('id')
-                },
-                success: function (html) {
-                    var doom = '<html>' + html;
-                    var res = $(doom).find('#reload');
-                    $('#reload').html(res);
-                },
-                error: function (e) {
-                    console.log(e)
-                }
-            });
-        });
-    });
-
-/*    $('.list-group-item').on('mouseover ', function () {
-        $(this).find('.menu_li').each(function () {
-            $(this).css('display', 'inline');
-        });
-    });
-
-    $('.list-group-item').on('mouseout  ', function () {
-        $(this).find('.menu_li').each(function () {
-            $(this).css('display', 'none');
-        });
-    });*/
 
     $('body').on('mouseover', '.list-group-item', function(e){
         $(this).find('.menu_li').each(function () {
@@ -229,8 +202,29 @@ jQuery(document).ready(function ($) {
             $(this).css('display', 'none');
         });
     });
-
+    $('.link_task').each(function () {
+        $(this).on('click', function () {
+            $.ajax({
+                method: 'GET',
+                url: 'index.php',
+                data: {
+                    id: $(this).attr('id')
+                },
+                success: function (html) {
+                    var doom = '<html>' + html;
+                    var res = $(doom).find('#reload_task');
+                    $('#reload_task').html(res);
+                    $('.content-center').css('height', $(window).height() + 'px');
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            });
+        });
+    });
 });
+
+
 
 function draw(figure, color) {
     var canvas ;
@@ -327,3 +321,5 @@ function draw(figure, color) {
         return canvas.toDataURL("image/png");
 
 }
+
+

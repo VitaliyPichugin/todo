@@ -10,9 +10,8 @@
                         <?foreach ($data['priority'] as $p):?>
                             <?if($val['project_id'] == $v['id']):?>
                                 <?if($val['priority_id'] == $p['id']):?>
-
                                  <li class="list-group-item">
-                                     <a href="index.php">
+                                     <a id="name_task">
                                          <img name="<?=$p['id']?>" src="<?=$p['type']?>">
                                          <?=$val['name_task']?>
                                       </a>
@@ -26,7 +25,6 @@
                                              <li id="<?=$val['id']?>">Done</li>
                                          </ul>
                                      </div>
-
                                  </li>
                                 <? endif;?>
                             <? endif;?>
@@ -44,7 +42,7 @@
                         <input type = "hidden" name = "datepicker" >
                     </div>
                     <div class="btn-left">
-                        <button style="float: left" type="submit" name="addTask" class="btn">Add</button>
+                        <button style="float: left" type="submit" id="add_task" name="addTask" class="btn">Add</button>
                         <a style="float: left; margin-right: 5px" class="btn task_cancel">Cancel</a>
                     </div>
                     <div class="btn-right">
