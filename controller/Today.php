@@ -15,9 +15,10 @@ class Today extends ATodo
         $this->id = $this->con->getUserId();
         $this->projectAdd();
         $this->taskAdd();
+      //  echo $this->getCntTask();
         return $this->render('template', 'today.php', array(
                 'project' => $this->getProject(),
-                'task' => $this->getTask(),
+                'task' => $this->getTaskGroup(),
                 'priority' => $this->getPriority()
             ));
     }
@@ -35,10 +36,10 @@ class Today extends ATodo
         return $this->con->selectDatatUser($this->id, 'project');
     }
 
-    function getTask()
+/*    function getTask()
     {
         return $this->con->selectDatatUser($this->id, 'task', date('d.m.Y'));
-    }
+    }*/
 
     function userId()
     {
@@ -59,6 +60,18 @@ class Today extends ATodo
 
     function getPriority(){
         return $this->con->selectDatatUser(null, 'priority');
+    }
+
+    function getCntTask(){
+        return $this->con->countTask(date('d.m.Y'), $this->id);
+    }
+
+    function getTaskGroup(){
+        if($_GET['id']) {
+            return $this->con->getGroupTask(date('d.m.Y'), $_GET['id'], $this->id);
+        }else{
+            return $this->con->selectDatatUser($this->id, 'task', date('d.m.Y'));
+        }
     }
 
 

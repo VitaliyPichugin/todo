@@ -1,23 +1,32 @@
-<div class="content-center">
-    <div class="col-md-9 tbl" >
+<div class="content-center" >
+    <div class="col-md-9 tbl "  >
         <div style="width: 100%">
             <p style="font-size: 24px;   margin: 20px; ">Today <span id="tday" style="font-size: 12px"></span></p>
         </div>
+            <ul class="list-group">
             <? if($data['task']): ?>
                 <?foreach ($data['task'] as $key=> $val):?>
                     <?foreach ($data['project'] as $k=> $v):?>
                         <?foreach ($data['priority'] as $p):?>
                             <?if($val['project_id'] == $v['id']):?>
                                 <?if($val['priority_id'] == $p['id']):?>
+
                                  <li class="list-group-item">
                                      <a href="index.php">
                                          <img name="<?=$p['id']?>" src="<?=$p['type']?>">
                                          <?=$val['name_task']?>
                                       </a>
-                                     <div style="float: right">
+                                     <div style="float: right" class="dropdown">
                                         <span><?=$v['name_project']?></span>
                                         <img  src=<?=$v['type']?>>
+                                         <a data-toggle="dropdown" class="menu_li"><span id="menu"><img style="width: 10px" src="view/css/menu.png"></span></a>
+                                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                             <li id="<?=$val['id']?>">Edit</li>
+                                             <li id="<?=$val['id']?>" >Delete</li>
+                                             <li id="<?=$val['id']?>">Done</li>
+                                         </ul>
                                      </div>
+
                                  </li>
                                 <? endif;?>
                             <? endif;?>
@@ -25,7 +34,7 @@
                     <?endforeach;?>
                 <?endforeach;?>
             <? endif;?>
-        </ul>
+            </ul>
         <div class="hide_form_task">
             <form   method="post">
                 <div class="form-group form-inline">

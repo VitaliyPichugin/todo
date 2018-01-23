@@ -1,4 +1,6 @@
 <?require_once 'header.php';?>
+<?php require_once 'modal_project.php';?>
+<?php require_once 'modal_priority.php';?>
 <section class="header" style="width: 100%">
     <nav class="navbar navbar-default container" role="navigation" style="width: 100%">
         <div class="container-fluid">
@@ -7,22 +9,29 @@
         </div>
     </nav>
 </section>
-<div class="content">
+<div class="content" id="re_left">
     <div class="col-md-3 tbl-left" >
         <ul class="list-group"  >
-            <li class="list-group-item"><a href="/today">Today</a></li>
+            <li class="list-group-item"><a href="/today">Today (<?=count($data['task'])?>)
+                </a></li>
             <li class="list-group-item"><a href="/sevenday">Nex 7 Day</a></li>
             <li class="list-group-item"><a href="/archive">Archive</a></li>
         </ul>
         <h3>Projects</h3>
-        <ul class="list-group"  >
+        <ul class="list-group ">
             <? if($data['project']): ?>
                 <?foreach ($data['project'] as $key=> $val):?>
-                    <li class="list-group-item list_project" id="<?= $val['id']?>">
-                        <a >
+                    <li class="list-group-item " id="<?= $val['id']?>">
+                        <? $_SESSION['cnt_single'] = 0;?>
+                        <? foreach ($data['task'] as $v): ?>
+                            <? if( $val['id'] == $v['project_id']): ?>
+                                <? $_SESSION['cnt_single']++;?>
+                            <? endif;?>
+                        <?endforeach;?>
+                        <a class="link_task" id="<?= $val['id']?>">
                             <img  src="<?=$val['type']?>">
                             <?= $val['name_project']?>
-                            (<?=$val['count_task']?>)
+                            (<?=$_SESSION['cnt_single']?>)
                         </a>
                     </li>
                 <?endforeach;?>
@@ -41,14 +50,9 @@
         </div>
         <a class="add_project" >Add Project +</a>
     </div>
-    <?php require_once 'modal_project.php';?>
-    <?php require_once 'modal_priority.php';?>
-    <!--Dynamic template-->
-   <? require_once 'view/'.$content; ?>
-</div>
-
-<div class="col-md-12 space-dialog"></div>
-<div style="display: none" class="modal_priority modal-form">
-
+    <div id="reload">
+        <!--Dynamic template-->
+       <? require_once 'view/'.$content; ?>
+    </div>
 </div>
 <?php require_once 'footer.php';?>

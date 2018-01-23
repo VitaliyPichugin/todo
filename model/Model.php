@@ -70,7 +70,16 @@
          $res = [];
          while($row = $results->fetch_array()) {
              $res[] = $row;
+         }
+         return $res;
+     }
 
+     protected function getGroupTask($date, $idProject, $id){
+         $results = $this->con->query("SELECT * FROM `task` WHERE `user_id` = $id 
+                      AND `date` <='$date' AND `project_id` = $idProject ORDER BY `priority_id` DESC");
+         $res = [];
+         while($row = $results->fetch_array()) {
+             $res[] = $row;
          }
          return $res;
      }
@@ -103,6 +112,13 @@
          ) {
              die('Error (' . $stmt->errno . ') ' . $stmt->error);
          }else return true;
+     }
+
+     protected function countTask($date, $id){
+
+         $results = $this->con->query("SELECT COUNT(1) FROM task WHERE `user_id` = $id AND `date` <='$date' ");
+         $res = $results->fetch_array();
+         return $res[0];
      }
 
      public function debug($arr){

@@ -4,8 +4,17 @@ body{
     background-color: #d9d9d9;
 }
 
+a:hover{
+    cursor: pointer;
+}
+
 ul{
-    margin-top: 2px;
+    margin: 2px 0 5px 0 ;
+   text-align: left;
+}
+li{
+    margin: 0;
+    padding: 0;
 }
 
 img{
@@ -19,6 +28,15 @@ canvas{
 
 li:hover{
     background-color: #d9d9d9;
+}
+
+img{
+    margin: 0;
+    padding: 0;
+}
+
+.menu_li{
+    display: none;
 }
 
 .btn-left{

@@ -1,18 +1,27 @@
 jQuery(document).ready(function ($) {
 
-    $(function(){
-       $('.content-center').css('height', $(window).height() + 'px');
-        $(window).resize(function() {
-            $('.content-center').css('height', $(window).height() + 'px');
-        });
+   $('.content-center').css('height', $(window).height() + 'px');
+
+    $(window).resize(function() {
+        $('.content-center').css('height', $(window).height() + 'px');
     });
+
+
     $('#canvas').css({
         width: '500px',
         height: '500px'
     });
 
+/*    $('.add_task').click(function () {
+        $('.hide_form_task').css('display', 'block');
+        $('.add_task').css('display', 'none');
 
-    $('.add_task').click(function () {
+        $('.type_priority').attr('src', draw('thunder', 'black'));
+        $('.type_project').attr('src', draw('smile', 'black'));
+
+    });*/
+
+    $('.content').on('click', '.add_task', function () {
         $('.hide_form_task').css('display', 'block');
         $('.add_task').css('display', 'none');
 
@@ -21,28 +30,51 @@ jQuery(document).ready(function ($) {
 
     });
 
-    $('.type_project').click(function () {
+/*    $('.type_project').click(function () {
+        $('.modal_project').css('display', 'block');
+
+    });*/
+
+    $('.content').on('click', '.type_project', function () {
         $('.modal_project').css('display', 'block');
 
     });
 
-    $('.add_project').click(function () {
+/*    $('.add_project').click(function () {
+        $('.hide_form_project').css('display', 'block');
+        $('.add_project').css('display', 'none');
+
+    });*/
+
+    $('.content').on('click', '.add_project', function () {
         $('.hide_form_project').css('display', 'block');
         $('.add_project').css('display', 'none');
 
     });
 
-    $('.project_cancel').click(function (e) {
+/*    $('.project_cancel').click(function (e) {
       // e.preventDefault();
         $('.hide_form_project').css('display', 'none');
         $('.add_project').css('display', 'block');
-    });//task_cancel
+    });//task_cancel*/
 
-    $('.task_cancel').click(function (e) {
+    $('.content').on('click', '.project_cancel', function () {
+        $('.hide_form_project').css('display', 'none');
+        $('.add_project').css('display', 'block');
+
+    });
+
+/*    $('.task_cancel').click(function (e) {
        // e.preventDefault();
         $('.hide_form_task').css('display', 'none');
         $('.add_task').css('display', 'block');
-    });//task_cancel
+    });//task_cancel*/
+
+    $('.content').on('click', '.task_cancel', function () {
+        $('.hide_form_task').css('display', 'none');
+        $('.add_task').css('display', 'block');
+
+    });
 
    $('#color-picker').colorpicker({
        format: 'hex'
@@ -61,25 +93,44 @@ jQuery(document).ready(function ($) {
     var toDayField = $.datepicker.formatDate( "dd.mm.yy", new Date());
     $('[name = datepicker]').val(toDayField);
    $('#tday').html(toDay);
-   $("#datepicker").datepicker({
-       altField: "[name = datepicker]",
-       altFormat: "dd.mm.yy",
-       dateFormat: 'dd M',
-       constrainInput: true
-   }).val(toDay);
+
+
+
+    //$('body').on('load', '#datepicker', function () {
+        $("#datepicker").datepicker({
+            altField: "[name = datepicker]",
+            altFormat: "dd.mm.yy",
+            dateFormat: 'dd M',
+            constrainInput: true
+        }).val(toDay);
+
 
     $('.list_project_modal, .list_priority_modal').each(function (e, i) {
-       $(this).click(function () {
-           $('.list_project_modal, .list_priority_modal').css('background-color', 'white').removeClass('selected_modal');
-           $(this).css('background-color', 'grey').addClass('selected_modal');
+        $(this).click(function () {
+            $('.list_project_modal, .list_priority_modal').css('background-color', 'white').removeClass('selected_modal');
+            $(this).css('background-color', 'grey').addClass('selected_modal');
         });
     });
 
-    $('.add_type_project').click(function () {
+/*    $('body').on('click', '.add_type_project', function () {
+        $('[name=task_project]').val($('.selected_modal').attr('id'));
+
+    });*/
+
+/*    $('.add_type_project').click(function () {
+        $('[name=task_project]').val($('.selected_modal').attr('id'));
+
+    });*/
+    $('body').on('click', '.add_type_project', function () {
         $('[name=task_project]').val($('.selected_modal').attr('id'));
 
     });
-    $('.add_type_priority').click(function () {
+
+/*    $('.add_type_priority').click(function () {
+        $('[name=task_priority]').val($('.selected_modal').attr('id'));
+
+    });*/
+    $('body').on('click', '.add_type_priority', function () {
         $('[name=task_priority]').val($('.selected_modal').attr('id'));
 
     });
@@ -109,6 +160,8 @@ jQuery(document).ready(function ($) {
        }
    });
 
+
+
     $('[name=addTask]').click(function (e) {
         e.preventDefault();
         if($('[name=add_task]').val() != '' ){
@@ -132,6 +185,49 @@ jQuery(document).ready(function ($) {
         }else {
             $('[name=add_task]').css('border-color', 'red');
         }
+    });
+
+    $('.link_task').each(function () {
+        $(this).click(function () {
+            $.ajax({
+                method: 'GET',
+                url: 'index.php',
+                data: {
+                    id: $(this).attr('id')
+                },
+                success: function (html) {
+                    var doom = '<html>' + html;
+                    var res = $(doom).find('#reload');
+                    $('#reload').html(res);
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            });
+        });
+    });
+
+/*    $('.list-group-item').on('mouseover ', function () {
+        $(this).find('.menu_li').each(function () {
+            $(this).css('display', 'inline');
+        });
+    });
+
+    $('.list-group-item').on('mouseout  ', function () {
+        $(this).find('.menu_li').each(function () {
+            $(this).css('display', 'none');
+        });
+    });*/
+
+    $('body').on('mouseover', '.list-group-item', function(e){
+        $(this).find('.menu_li').each(function () {
+            $(this).css('display', 'inline');
+        });
+    });
+    $('body').on('mouseout', '.list-group-item', function(e){
+        $(this).find('.menu_li').each(function () {
+            $(this).css('display', 'none');
+        });
     });
 
 });
