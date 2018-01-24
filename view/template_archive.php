@@ -15,20 +15,20 @@
                             <? $_SESSION['cnt_single'] = 0;?>
                             <? foreach ($data['task'] as $v): ?>
                                 <? if( $val['id'] == $v['project_id']): ?>
+                                    <? $_SESSION['cnt_single']++;?>
                                 <? endif;?>
                             <?endforeach;?>
                             <a  class="link_task link_cnt" id="<?= $val['id']?>">
                                 <img  src="<?=$val['type']?>">
                                 <?= $val['name_project']?>
+                                (<?=$_SESSION['cnt_single']?>)
                             </a>
                         </li>
                     <?endforeach;?>
                 <? endif;?>
             </ul>
         </div>
-        <? require_once 'form_project.php'?>
     </div>
-    <!--Dynamic template-->
     <div class="content-center" >
         <div class="col-md-9 tbl "  >
             <div style="width: 100%">
@@ -52,16 +52,6 @@
                                                         <span style="color: green">(<?=$val['status']?>)</span>
                                                     <? endif;?>
                                                 </a>
-                                                <div style="float: right" class="dropdown">
-                                                    <span><?=$v['name_project']?></span>
-                                                    <img  src=<?=$v['type']?>>
-                                                    <a data-toggle="dropdown" class="menu_li"><span id="menu"><img style="width: 10px" src="view/css/menu.png"></span></a>
-                                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                                        <li class="menu_edit" id="<?=$val['id']?>">Edit</li>
-                                                        <li class="menu_delete" id="<?=$val['id']?>" >Delete</li>
-                                                        <li class="menu_done" id="<?=$val['id']?>">Done</li>
-                                                    </ul>
-                                                </div>
                                             </li>
                                         <? endif;?>
                                     <? endif;?>
@@ -71,7 +61,6 @@
                     <? endif;?>
                 </div>
             </ul>
-            <? require_once 'form_task.php'?>
         </div>
     </div>
 </div>

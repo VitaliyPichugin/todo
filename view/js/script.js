@@ -14,56 +14,8 @@ jQuery(document).ready(function ($) {
         height: '500px'
     });
 
-    $('.content').on('click', '.add_task', function () {
-        $('.hide_form_task').css('display', 'block');
-        $('.add_task').css('display', 'none');
+    hideFormTask();
 
-        $('.type_priority').attr('src', draw('thunder', 'black'));
-        $('.type_project').attr('src', draw('smile', 'black'));
-
-    });
-
-
-    $('.content').on('click', '.type_project', function () {
-        $('.modal_project').css('display', 'block');
-
-    });
-
-    /*    $('.add_project').click(function () {
-            $('.hide_form_project').css('display', 'block');
-            $('.add_project').css('display', 'none');
-
-        });*/
-
-    $('.content').on('click', '.add_project', function () {
-        $('.hide_form_project').css('display', 'block');
-        $('.add_project').css('display', 'none');
-
-    });
-
-    /*    $('.project_cancel').click(function (e) {
-          // e.preventDefault();
-            $('.hide_form_project').css('display', 'none');
-            $('.add_project').css('display', 'block');
-        });//task_cancel*/
-
-    $('.content').on('click', '.project_cancel', function () {
-        $('.hide_form_project').css('display', 'none');
-        $('.add_project').css('display', 'block');
-
-    });
-
-    /*    $('.task_cancel').click(function (e) {
-           // e.preventDefault();
-            $('.hide_form_task').css('display', 'none');
-            $('.add_task').css('display', 'block');
-        });//task_cancel*/
-
-    $('.content').on('click', '.task_cancel', function () {
-        $('.hide_form_task').css('display', 'none');
-        $('.add_task').css('display', 'block');
-
-    });
 
     $('#color-picker').colorpicker({
         format: 'hex'
@@ -150,13 +102,13 @@ jQuery(document).ready(function ($) {
                 }
             });
         } else {
-            $('[name=add_project]').css('border-color', 'red');
+            $('[name=add_task]').css('border-color', 'red');
         }
     });
 
     $('[name=addTask]').click(function (e) {
         e.preventDefault();
-        if ($('[name=add_task]').val() != '') {
+        if ($('[name=add_task]').val() != '' && $('[name=task_project]').val() != '' && $('[name=task_prioriry]').val() != '') {
             $.ajax({
                 method: 'POST',
                 url: 'index.php',
@@ -169,26 +121,22 @@ jQuery(document).ready(function ($) {
                 },
                 success: function (html) {
                     var doom = '<html>' + html;
-                    var res_task = $(doom).find('#reload_task');//reload_project
+                    var res_task = $(doom).find('#reload_task');
                     $('#reload_task').html(res_task);
 
-                    var res_proj = $(doom).find('#reload_project');//reload_project
+                    var res_proj = $(doom).find('#reload_project');
                     $('#reload_project').html(res_proj);
-                   // $(doom).find('.link_cnt').each(function () {
-                        //$('.link_cnt').html($(this).html());
-                      //  var link_cnt = $(this).html();
-                       /* $('.link_cnt').each(function () {
-                            $(this).html(link_cnt);
-                        });*/
-                  //  });
-                   // $('#reload_project').html(res_proj);
+
+                    $('[name=add_task]').val('');
+                    $('[name=task_project]').val('');
+                    $('[name=task_prioriry]').val();
                 },
                 error: function (e) {
                     console.log(e)
                 }
             });
         } else {
-            $('[name=add_task]').css('border-color', 'red');
+            alert('selected not all');
         }
     });
 
@@ -202,23 +150,119 @@ jQuery(document).ready(function ($) {
             $(this).css('display', 'none');
         });
     });
-    $('.link_task').each(function () {
-        $(this).on('click', function () {
-            $.ajax({
-                method: 'GET',
-                url: 'index.php',
-                data: {
-                    id: $(this).attr('id')
-                },
-                success: function (html) {
-                    var doom = '<html>' + html;
-                    var res = $(doom).find('#reload_task');
-                    $('#reload_task').html(res);
-                    $('.content-center').css('height', $(window).height() + 'px');
-                },
-                error: function (e) {
-                    console.log(e)
-                }
+    //document.addEventListener('click', function () {
+    $(document).on('click', '.link_task', function (e) {
+        $('.link_task').each(function () {
+            $(this).click(function () {
+                $.ajax({
+                    method: 'GET',
+                    url: 'index.php',
+                    data: {
+                        id: $(this).attr('id')
+                    },
+                    success: function (html) {
+                        var doom = '<html>' + html;
+                        var res = $(doom).find('#reload_task');
+                        $('#reload_task').html(res);
+                        $('.content-center').css('height', $(window).height() + 'px');
+                    },
+                    error: function (e) {
+                        console.log(e)
+                    }
+                });
+            });
+        });
+    });
+
+    $('body').on('click', '.list-group-item', function(e){
+        $(this).find('.menu_delete').each(function () {
+            $(this).click(function () {
+                $.ajax({
+                    method: 'POST',
+                    url: 'index.php',
+                    data: {
+                        del_id: $(this).attr('id')
+                    },
+                    success: function (html) {
+                        var doom = '<html>' + html;
+                        var res_task = $(doom).find('#reload_task');
+                        $('#reload_task').html(res_task);
+
+                        var res_proj = $(doom).find('#reload_project');
+                        $('#reload_project').html(res_proj);
+                    },
+                    error: function (e) {
+                        console.log(e)
+                    }
+                });
+            });
+        });
+        $(this).find('.menu_done').each(function () {
+            $(this).click(function () {
+                $.ajax({
+                    method: 'POST',
+                    url: 'index.php',
+                    data: {
+                        done_id: $(this).attr('id')
+                    },
+                    success: function (html) {
+                        var doom = '<html>' + html;
+                        var res_task = $(doom).find('#reload_task');
+                        $('#reload_task').html(res_task);
+
+                        var res_proj = $(doom).find('#reload_project');
+                        $('#reload_project').html(res_proj);
+                    },
+                    error: function (e) {
+                        console.log(e)
+                    }
+                });
+            });
+        });
+        $(this).find('.menu_edit').each(function () {
+            $(this).click(function (e) {
+                $('.menu_edit').parents('li').css('background-color', 'white');
+                $(this).parents('li').css('background-color', '#ddb004');
+                var edit_id = $(this).attr('id');
+                $('.add_task').trigger('click');
+                $('#add_task').attr({
+                    id: 'edit_task',
+                    name: 'editTask'
+                }).text('Edit');
+                $('#edit_task').click(function (e) {
+                    e.preventDefault();
+                    $('[name=add_task]').attr('name', 'edit_task');
+                    if ($('[name=edit_task]').val() != '' && $('[name=task_project]').val() != '' &&
+                        $('[name=task_prioriry]').val() != '') {
+                        $.ajax({
+                            method: 'POST',
+                            url: 'index.php',
+                            data: {
+                                send: 'task_edit',
+                                edit_id: edit_id,
+                                edit_task: $('[name=edit_task]').val(),
+                                priority_id: $('[name=task_priority]').val(),
+                                project_id: $('[name=task_project]').val(),
+                                date: $('[name = datepicker]').val()
+                            },
+                            success: function (html) {
+                                var doom = '<html>' + html;
+                                var res_task = $(doom).find('#reload_task');
+                                $('#reload_task').html(res_task);
+
+                                var res_proj = $(doom).find('#reload_project');
+                                $('#reload_project').html(res_proj);
+                               // clear();
+                            },
+                            error: function (e) {
+                                console.log(e)
+                            }
+                        });
+                    }else {
+                       alert('elected not all');
+                    }
+                });
+
             });
         });
     });
@@ -306,6 +350,7 @@ function draw(figure, color) {
                  canvas = document.getElementById('canvas_smile');
                 var context = canvas.getContext('2d');
                 context.lineWidth = 10;
+                context.strokeStyle  = color;
                 context.beginPath();
                 context.arc(75,75,50,0,Math.PI*2,true);
                 context.moveTo(110,75);
@@ -322,4 +367,43 @@ function draw(figure, color) {
 
 }
 
+function hideFormTask() {
+    $('.content').on('click', '.add_task', function () {
+        $('.hide_form_task').css('display', 'block');
+        $('.add_task').css('display', 'none');
 
+        $('.type_project').attr('src', draw('smile', 'black'));
+        $('.type_priority').attr('src', draw('thunder', 'black'));
+
+    });
+
+    $('.content').on('click', '.type_project', function () {
+        $('.modal_project').css('display', 'block');
+
+    });
+
+    $('.content').on('click', '.add_project', function () {
+        $('.hide_form_project').css('display', 'block');
+        $('.add_project').css('display', 'none');
+
+    });
+
+    $('.content').on('click', '.project_cancel', function () {
+        $('.hide_form_project').css('display', 'none');
+        $('.add_project').css('display', 'block');
+
+    });
+
+
+    $('.content').on('click', '.task_cancel', function () {
+        $('.hide_form_task').css('display', 'none');
+        $('.add_task').css('display', 'block');
+
+    });
+}
+
+function clear() {
+    $('[name=add_task]').val('');
+    $('[name=task_project]').val('');
+    $('[name=task_prioriry]').val();
+}
