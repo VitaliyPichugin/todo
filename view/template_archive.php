@@ -2,12 +2,11 @@
     <div class="col-md-3 tbl-left" >
         <div id="reload_project">
             <ul class="list-group"  >
-                <li class="list-group-item"><a href="/today">Today (<?=count($data['task'])?>)
-                    </a></li>
-                <li class="list-group-item"><a href="/sevenday">Nex 7 Day</a></li>
-                <li class="list-group-item"><a href="/archive">Archive</a></li>
+                <li class="list-group-item"><a href="/today">Today (<?=$data['ctnTd']?>)</a></li>
+                <li class="list-group-item"><a href="/sevenday">Nex 7 Day (<?=$data['ctnSd']?>)</a></li>
+                <li class="list-group-item"><a href="/archive">Archive (<?=$data['ctnAd']?>)</a></li>
             </ul>
-            <h3>Projects</h3>
+            <a href="<?=$_REQUEST['uri']?>" style="font-size: 18px">Projects</a>
             <ul class="list-group ">
                 <? if($data['project']): ?>
                     <?foreach ($data['project'] as $key=> $val):?>

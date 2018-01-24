@@ -16,14 +16,17 @@ class Sevenday extends ATodo {
         $this->projectAdd();
         $this->taskAdd();
         $this->delTask();
+        $this->delProject();
         $this->doneTask();
         $this->editTask();
-        //  echo $this->getCntTask();
         return $this->render('index', 'template.php', array(
             'project' => $this->getProject(),
             'task' => $this->getTaskGroup(),
             'priority' => $this->getPriority(),
-            'title' => 'Next 7 Day'
+            'title' => 'Next 7 Day',
+            'ctnTd' => $this->getCntToday(),
+            'ctnSd' => $this->getCntSevenDay(),
+            'ctnAd' => $this->getCntArchive(),
         ));
     }
 
@@ -39,11 +42,6 @@ class Sevenday extends ATodo {
     {
         return $this->con->selectDatatUser($this->id, 'project');
     }
-
-    /*    function getTask()
-        {
-            return $this->con->selectDatatUser($this->id, 'task', date('d.m.Y'));
-        }*/
 
     function userId()
     {
@@ -69,9 +67,17 @@ class Sevenday extends ATodo {
         return $this->con->selectDatatUser(null, 'priority');
     }
 
-    function getCntTask()
+    function getCntToday()
     {
-        return $this->con->countTask(date('d.m.Y'), $this->id);
+        return $this->con->countTask( $this->id);
+    }
+    function getCntSevenDay()
+    {
+        return $this->con->countTaskSevenDay( $this->id);
+    }
+    function getCntArchive()
+    {
+        return $this->con->countTaskArchive( $this->id);
     }
 
     function getTaskGroup()
@@ -86,9 +92,18 @@ class Sevenday extends ATodo {
     function delTask()
     {
         if ($_POST['del_id']) {
-            return $this->con->remove($_POST['del_id']);
+            return $this->con->remove($_POST['del_id'], 'task');
         } else return false;
     }
+
+    function delProject()
+    {
+        if ($_POST['del_id_project']) {
+            return $this->con->remove($_POST['del_id'], 'project');
+        } else return false;
+    }
+
+
 
     function doneTask(){
         if($_POST['done_id']){

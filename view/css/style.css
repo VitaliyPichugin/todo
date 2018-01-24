@@ -126,4 +126,12 @@ img{
     margin-bottom: 15px;
 }
 
+.expired{
+    background-color: #ff5c52;
+}
+
+.hide_form_project_edit, .hide_form_task_edit{
+    display: none;
+}
+
 

@@ -18,7 +18,10 @@ class Archive extends ATodo {
             'project' => $this->getProject(),
             'task' => $this->getTaskGroup(),
             'priority' => $this->getPriority(),
-            'title' => 'Archive'
+            'title' => 'Archive',
+            'ctnTd' => $this->getCntToday(),
+            'ctnSd' => $this->getCntSevenDay(),
+            'ctnAd' => $this->getCntArchive(),
         ));
     }
 
@@ -32,7 +35,7 @@ class Archive extends ATodo {
 
     function getProject()
     {
-        return $this->con->selectDatatUser($this->id, 'project');
+        return $this->con->selectDatatUserArchive($this->id, 'project');
     }
 
 
@@ -43,21 +46,36 @@ class Archive extends ATodo {
 
     function getPriority()
     {
-        return $this->con->selectDatatUser(null, 'priority');
+        return $this->con->selectDatatUserArchive(null, 'priority');
     }
 
     function getCntTask()
     {
-        return $this->con->countTask(date('d.m.Y'), $this->id);
+        return $this->con->countTaskArchive(date('d.m.Y'), $this->id);
     }
 
     function getTaskGroup()
     {
         if ($_GET['id']) {
-            return $this->con->getGroupTask(date('d.m.Y'), $_GET['id'], $this->id);
+            return $this->con->getGroupTaskArchive(date('d.m.Y'), $_GET['id'], $this->id);
         } else {
-            return $this->con->selectDatatUser($this->id, 'task', date('d.m.Y'));
+            return $this->con->selectDatatUserArchive($this->id, 'task', date('d.m.Y'));
         }
+    }
+
+    function getCntToday()
+    {
+        return $this->con->countTask( $this->id);
+    }
+
+    function getCntSevenDay()
+    {
+        return $this->con->countTaskSevenDay( $this->id);
+    }
+
+    function getCntArchive()
+    {
+        return $this->con->countTaskArchive( $this->id);
     }
 
 }

@@ -10,26 +10,19 @@ spl_autoload_register(function ($file) {
         require_once 'view/' . $file . '.php';
     }
 });
-
 if($_SERVER['REQUEST_URI'] == '/logout'){
     session_destroy();
     header('Location: http://todo/');
 }
-
-
 if(!$_SESSION['auth']){
     $obj = new Auth();
-
     echo  $obj->templateMethod();
     $pattern1 = '/^\/[a-z]*\/$/';
     $pattern2 = '/^\/[a-z]*$/';
-
     exit;
 }
 else {
-
     switch ($_SERVER['REQUEST_URI']) {
-
         case '/today': {
             $obj = new Today();
             break;
@@ -60,7 +53,6 @@ else {
         }
     }
 }
-
 echo $obj->templateMethod();
 
 

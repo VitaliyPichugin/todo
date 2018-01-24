@@ -16,14 +16,18 @@ class Today extends ATodo
         $this->projectAdd();
         $this->taskAdd();
         $this->delTask();
+        $this->delProject();
         $this->doneTask();
         $this->editTask();
-        //  echo $this->getCntTask();
         return $this->render('index', 'template.php', array(
             'project' => $this->getProject(),
             'task' => $this->getTaskGroup(),
             'priority' => $this->getPriority(),
-            'title' => 'Today'
+            'expired' => $this->getExpiredTask(),
+            'title' => 'Today',
+            'ctnTd' => $this->getCntToday(),
+            'ctnSd' => $this->getCntSevenDay(),
+            'ctnAd' => $this->getCntArchive(),
         ));
     }
 
@@ -69,9 +73,17 @@ class Today extends ATodo
         return $this->con->selectDatatUser(null, 'priority');
     }
 
-    function getCntTask()
+    function getCntToday()
     {
-        return $this->con->countTask(date('d.m.Y'), $this->id);
+        return $this->con->countTask( $this->id);
+    }
+    function getCntSevenDay()
+    {
+        return $this->con->countTaskSevenDay( $this->id);
+    }
+    function getCntArchive()
+    {
+        return $this->con->countTaskArchive( $this->id);
     }
 
     function getTaskGroup()
@@ -83,10 +95,21 @@ class Today extends ATodo
         }
     }
 
+    function getExpiredTask(){
+        return $this->con->expiredTask($this->id);
+    }
+
     function delTask()
     {
         if ($_POST['del_id']) {
-            return $this->con->remove($_POST['del_id']);
+            return $this->con->remove($_POST['del_id'], 'task');
+        } else return false;
+    }
+
+    function delProject()
+    {
+        if ($_POST['del_id_project']) {
+            return $this->con->remove($_POST['del_id_project'], 'project');
         } else return false;
     }
 
@@ -97,7 +120,7 @@ class Today extends ATodo
     }
 
     function editTask(){
-        if($_POST['task_edit']){
+        if($_POST['send'] == 'task_edit'){
             return $this->con->edit(
                 $_POST['edit_id'], $_POST['edit_task'], $_POST['project_id'], $_POST['priority_id'], $_POST['date']
             );
