@@ -4,7 +4,7 @@
             <?foreach ($data['priority'] as $p):?>
                 <?if($val['project_id'] == $v['id']):?>
                     <?if($val['priority_id'] == $p['id']):?>
-                        <?if($val['date'] < date('d.m.Y')):?>
+                        <?if($val['date'] < date('d.m.Y') && $_REQUEST['uti'] != '/sevenday'):?>
                             <li class="list-group-item expired">
                                 <a id="name_task">
                                     <img name="<?=$p['id']?>" src="<?=$p['type']?>">

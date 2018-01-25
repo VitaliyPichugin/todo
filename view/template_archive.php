@@ -6,26 +6,6 @@
                 <li class="list-group-item"><a href="/sevenday">Nex 7 Day (<?=$data['ctnSd']?>)</a></li>
                 <li class="list-group-item"><a href="/archive">Archive (<?=$data['ctnAd']?>)</a></li>
             </ul>
-            <a href="<?=$_REQUEST['uri']?>" style="font-size: 18px">Projects</a>
-            <ul class="list-group ">
-                <? if($data['project']): ?>
-                    <?foreach ($data['project'] as $key=> $val):?>
-                        <li class="list-group-item " id="<?= $val['id']?>">
-                            <? $_SESSION['cnt_single'] = 0;?>
-                            <? foreach ($data['task'] as $v): ?>
-                                <? if( $val['id'] == $v['project_id']): ?>
-                                    <? $_SESSION['cnt_single']++;?>
-                                <? endif;?>
-                            <?endforeach;?>
-                            <a  class="link_task link_cnt" id="<?= $val['id']?>">
-                                <img  src="<?=$val['type']?>">
-                                <?= $val['name_project']?>
-                                (<?=$_SESSION['cnt_single']?>)
-                            </a>
-                        </li>
-                    <?endforeach;?>
-                <? endif;?>
-            </ul>
         </div>
     </div>
     <div class="content-center" >

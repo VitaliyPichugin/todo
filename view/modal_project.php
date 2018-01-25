@@ -18,11 +18,11 @@
                                             <? $_SESSION['cnt_single']++;?>
                                         <? endif;?>
                                     <?endforeach;?>
-                                    <a >
+                                    <p >
                                         <img  src="<?=$val['type']?>">
                                         <?= $val['name_project']?>
                                         (<?=$_SESSION['cnt_single']?>)
-                                    </a>
+                                    </p>
                                 </li>
                             <?endforeach;?>
                         <? endif;?>

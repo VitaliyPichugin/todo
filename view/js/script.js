@@ -9,10 +9,6 @@ jQuery(document).ready(function ($) {
         $('.content-center').css('height', $(window).height() + 'px');
     });
 
-    $('#canvas').css({
-        width: '500px',
-        height: '500px'
-    });
 
     $('#color-picker').colorpicker({
         format: 'hex'
@@ -207,31 +203,48 @@ jQuery(document).ready(function ($) {
                 });
             });
         });
+
         $(this).find('.menu_edit_project').each(function () {
             $(this).click(function (e) {
+                $('#color-picker_edit').colorpicker({
+                    format: 'hex'
+                }).on('colorpickerChange colorpickerCreate', function (e) {
+                    e.color.tetrad().forEach(function () {
+                        $('#color-picker_edit').css({
+                            backgroundColor: $('#color-picker_edit').val(),
+                            color: $('#color-picker_edit').val()
+                        });
+                        $('#color_hex_edit').val($('#color-picker_edit').val());
+
+                    });
+                });
                 $('.hide_form_project_edit').css('display', 'block');
+                $('.hide_form_project').css('display', 'none');
                 $('.menu_edit_project').parents('li').css('background-color', 'white');
                 $(this).parents('li').css('background-color', '#ddb004');
                 var project_id = $(this).attr('id');
-                $('#edit_task').click(function (e) {
+                //var type = draw('circle',$('#color_hex_edit').val());
+                //$('#editProject').click(function (e) {
+                    $(document).on('click', '#editProject', function(e){
                     e.preventDefault();
-                    if ($('[name=edit_project]').val() != '') {
+                    if ($('[name=editProject]').val() != '') {
                         $.ajax({
                             method: 'POST',
                             url: 'index.php',
                             data: {
-                                send: 'project_edit',
-                                edit_id: project_id,
-                                edit_task: $('[name=edit_project]').val()
+                                send: 'project_edit_menu',
+                                edit_id_project: project_id,
+                                type: draw('circle',$('#color_hex_edit').val()),
+                                edit_project: $('[name=edit_project]').val()
                             },
                             success: function (html) {
                                 var doom = '<html>' + html;
                                 var res_proj = $(doom).find('#reload_project');
                                 $('#reload_project').html(res_proj);
                                 $('.hide_form_project_edit').css('display', 'none');
-                                clear();
                             },
                             error: function (e) {
+                                alert('err');
                                 console.log(e)
                             }
                         });
@@ -239,7 +252,6 @@ jQuery(document).ready(function ($) {
                         alert('selected not all');
                     }
                 });
-
             });
         });
         $(this).find('.menu_done').each(function () {
@@ -306,11 +318,11 @@ jQuery(document).ready(function ($) {
                        alert('selected not all');
                     }
                 });
-
             });
         });
     });
 });
+
 
 function draw(figure, color) {
     var canvas ;
@@ -412,6 +424,7 @@ function draw(figure, color) {
 function hideFormTask() {
     $('.content').on('click', '.add_task', function () {
         $('.hide_form_task').css('display', 'block');
+        $('.hide_form_task_edit').css('display', 'none');
         $('.add_task').css('display', 'none');
 
         $('.type_project').attr('src', draw('smile', 'black'));
@@ -426,12 +439,14 @@ function hideFormTask() {
 
     $('.content').on('click', '.add_project', function () {
         $('.hide_form_project').css('display', 'block');
+        $('.hide_form_project_edit').css('display', 'none');
         $('.add_project').css('display', 'none');
 
     });
 
     $('.content').on('click', '.project_cancel', function () {
         $('.hide_form_project').css('display', 'none');
+        $('.hide_form_project_edit').css('display', 'none');
         $('.add_project').css('display', 'block');
 
     });

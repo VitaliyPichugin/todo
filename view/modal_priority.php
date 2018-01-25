@@ -13,9 +13,9 @@
                             <? if($data['priority']): ?>
                                 <?foreach ($data['priority'] as $key=> $val):?>
                                     <li class="list-group-item list_priority_modal li-modal" id="<?=$val['id']?>">
-                                        <a >
-                                            <img  src="<?=$val['type']?>"><a href="index.php"><?= $val['name']?></a>
-                                        </a>
+                                        <p >
+                                            <img  src="<?=$val['type']?>"><a ><?= $val['name']?></a>
+                                        </p>
                                     </li>
                                 <?endforeach;?>
                             <? endif;?>

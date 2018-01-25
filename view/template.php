@@ -1,6 +1,6 @@
 <div class="content" id="re_left">
     <div class="col-md-3 tbl-left" >
-        <div id="reload_project">
+        <div id="reload_project page_link">
             <ul class="list-group"  >
                 <li class="list-group-item"><a href="/today">Today (<?=$data['ctnTd']?>)</a></li>
                 <li class="list-group-item"><a href="/sevenday">Nex 7 Day (<?=$data['ctnSd']?>)</a></li>
@@ -24,8 +24,7 @@
                                 (<?=$_SESSION['cnt_single']?>)
                             </a>
                             <div style="float: right" class="dropdown">
-                                <span><?=$v['name_project']?></span>
-                                <img  src=<?=$v['type']?>>
+                                <span><?=$v['name_project']?>
                                 <a data-toggle="dropdown" class="menu_li"><span id="menu"><img style="width: 10px" src="view/css/menu.png"></span></a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                                     <li class="menu_edit_project" id="<?=$val['id']?>">Edit</li>
