@@ -11,7 +11,7 @@ class Archive extends ATodo {
 
     public function templateMethod()
     {
-        $this->id = $this->con->getUserId();
+        $this->id = $_SESSION['uid'];
 
         return $this->render('index', 'template_archive.php', array(
             'project' => $this->getProject(),
@@ -37,7 +37,6 @@ class Archive extends ATodo {
         return $this->con->selectDatatUserArchive($this->id, 'project');
     }
 
-
     function userId()
     {
         return $this->con->getUserId();
@@ -57,15 +56,6 @@ class Archive extends ATodo {
         return $this->con->selectTaskArchive($this->id);
     }
 
-/*    function getTaskGroup()
-    {
-        if ($_GET['id']) {
-            //архив по категориям
-            return $this->con->getGroupTaskArchive( $_GET['id'], $this->id);
-        } else {
-            return $this->con->selectDatatUserArchive($this->id, 'task', date('d.m.Y'));
-        }
-    }*/
 
     function getCntToday()
     {

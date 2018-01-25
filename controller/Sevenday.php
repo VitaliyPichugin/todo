@@ -12,7 +12,7 @@ class Sevenday extends ATodo {
 
     public function templateMethod()
     {
-        $this->id = $this->con->getUserId();
+        $this->id = $_SESSION['uid'];
         $this->projectAdd();
         $this->taskAdd();
         $this->delTask();
@@ -60,7 +60,7 @@ class Sevenday extends ATodo {
     function taskAdd()
     {
         if ($_POST['addTask']) {
-            $this->con->addTask($this->id, $_POST['add_task'], $_POST['priority_id'], $_POST['project_id'], $_POST['date']);
+            $this->con->addTask($this->id, $_POST['add_task'], $_POST['priority_id'], $_POST['project_id'], $_POST['date'], $_POST['status']);
         }
     }
 
@@ -120,7 +120,7 @@ class Sevenday extends ATodo {
     function editTask(){
         if($_POST['send'] == 'task_edit'){
             return $this->con->edit(
-                $_POST['edit_id'], $_POST['edit_task'], $_POST['project_id'], $_POST['priority_id'], $_POST['date']
+                $_POST['edit_id'], $_POST['edit_task'], $_POST['project_id'], $_POST['priority_id'], $_POST['date'], $_POST['status']
             );
         }else return false;
     }

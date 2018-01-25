@@ -1,4 +1,4 @@
-<?php
+<?session_start();
 
 // для подключения к бд
 define('DB_USER', 'root');

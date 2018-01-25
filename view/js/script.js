@@ -70,9 +70,12 @@ jQuery(document).ready(function ($) {
                     var res_task = $(doom).find('#reload_task');
                     $('#reload_task').html(res_task);
 
+                    var res_modal = $(doom).find('#reload_modal');
+                    $('#reload_modal').html(res_modal);
+
                     var res_proj = $(doom).find('#reload_project');
                     $('#reload_project').html(res_proj);
-                    clear();
+                    clear();//reload_modal
                 },
                 error: function (e) {
                     console.log(e)
@@ -82,7 +85,6 @@ jQuery(document).ready(function ($) {
             $('[name=add_task]').css('border-color', 'red');
         }
     });
-
     $('[name=addTask]').on('click', function (e) {
         e.preventDefault();
         if ($('[name=add_task]').val() != '' && $('[name=task_project]').val() != '' && $('[name=task_prioriry]').val() != '') {
@@ -94,7 +96,8 @@ jQuery(document).ready(function ($) {
                     add_task: $('[name=add_task]').val(),
                     priority_id: $('[name=task_priority]').val(),
                     project_id: $('[name=task_project]').val(),
-                    date: $('[name = datepicker]').val()
+                    date: $('[name = datepicker]').val(),
+                    status: $('[name="status"]:checked').parent('p').text()
                 },
                 success: function (html) {
                     var doom = '<html>' + html;
@@ -271,6 +274,7 @@ jQuery(document).ready(function ($) {
         });
         $(this).find('.menu_edit').each(function () {
             $(this).click(function (e) {
+                $('.hide_form_task').css('display', 'none');
                 $('.hide_form_task_edit').css('display', 'block');
                 $('.type_project').attr('src', draw('smile', '#ffe28a'));
                 $('.type_priority').attr('src', draw('thunder', '#ffe28a'));
@@ -291,9 +295,11 @@ jQuery(document).ready(function ($) {
                                 edit_task: $('[name=edit_task]').val(),
                                 priority_id: $('[name=task_priority]').val(),
                                 project_id: $('[name=task_project]').val(),
-                                date: $('[name = datepicker]').val()
+                                date: $('[name = datepicker]').val(),
+                                status: $('[name="status"]:checked').parent('p').text()
                             },
                             success: function (html) {
+                                alert('ok');
                                 var doom = '<html>' + html;
                                 var res_task = $(doom).find('#reload_task');
                                 $('#reload_task').html(res_task);
@@ -315,7 +321,6 @@ jQuery(document).ready(function ($) {
         });
     });
 });
-
 
 function draw(figure, color) {
     var canvas ;

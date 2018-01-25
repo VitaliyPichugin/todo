@@ -5,9 +5,8 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Закрыть</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">Выбор приоритета</h4>
+                    <h4 class="modal-title" id="myModalLabel">Выбор состаяния</h4>
                 </div>
-                <div class="modal-body">
                     <div class="modal-body">
                         <ul class="list-group li-modal"  >
                             <? if($data['priority']): ?>
@@ -20,8 +19,9 @@
                                 <?endforeach;?>
                             <? endif;?>
                         </ul>
+                        <p class="notDone" style="width: inherit">Not done <input id="notDone" name="status" checked type="radio"></p>
+                        <p class="done" style="width: inherit">Done <input id="done" name="status" type="radio"></p>
                     </div>
-               </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                     <button type="button" class="btn btn-primary add_type_priority" data-dismiss="modal">Выбрать</button>

@@ -8,25 +8,27 @@
                     <h4 class="modal-title" id="myModalLabel">Выбор проэкта</h4>
                 </div>
                 <div class="modal-body">
-                    <ul class="list-group "  >
-                        <? if($data['project']): ?>
-                            <?foreach ($data['project'] as $key=> $val):?>
-                                <li class="list-group-item list_project_modal li-modal" id="<?= $val['id']?>">
-                                    <? $_SESSION['cnt_single'] = 0;?>
-                                    <? foreach ($data['task'] as $v): ?>
-                                        <? if( $val['id'] == $v['project_id']): ?>
-                                            <? $_SESSION['cnt_single']++;?>
-                                        <? endif;?>
-                                    <?endforeach;?>
-                                    <p >
-                                        <img  src="<?=$val['type']?>">
-                                        <?= $val['name_project']?>
-                                        (<?=$_SESSION['cnt_single']?>)
-                                    </p>
-                                </li>
-                            <?endforeach;?>
-                        <? endif;?>
-                    </ul>
+                    <div id="reload_modal">
+                        <ul class="list-group "  >
+                            <? if($data['project']): ?>
+                                <?foreach ($data['project'] as $key=> $val):?>
+                                    <li class="list-group-item list_project_modal li-modal" id="<?= $val['id']?>">
+                                        <? $_SESSION['cnt_single'] = 0;?>
+                                        <? foreach ($data['task'] as $v): ?>
+                                            <? if( $val['id'] == $v['project_id']): ?>
+                                                <? $_SESSION['cnt_single']++;?>
+                                            <? endif;?>
+                                        <?endforeach;?>
+                                        <p >
+                                            <img  src="<?=$val['type']?>">
+                                            <?= $val['name_project']?>
+                                            (<?=$_SESSION['cnt_single']?>)
+                                        </p>
+                                    </li>
+                                <?endforeach;?>
+                            <? endif;?>
+                        </ul>
+                   </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default " data-dismiss="modal">Закрыть</button>

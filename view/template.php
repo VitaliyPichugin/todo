@@ -44,12 +44,12 @@
             <div style="width: 100%">
                 <p style="font-size: 24px;   margin: 20px; "><?=$title?> <span id="tday" style="font-size: 12px"></span></p>
             </div>
-            <ul class="list-group">
-                <div id="reload_task">
+            <div id="reload_task">
+                <ul class="list-group">
                     <? require_once 'taskExpired.php'?>
                     <? require_once 'task.php'?>
-                </div>
-            </ul>
+                </ul>
+            </div>
             <? require_once 'form_task.php'?>
             <? require_once 'form_task_edit.php'?>
         </div>

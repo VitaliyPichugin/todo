@@ -8,7 +8,6 @@
 
 class Auth extends ATodo
 {
-
     public function templateMethod()
     {
         $this->con = new Model(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -23,7 +22,6 @@ class Auth extends ATodo
 
     function render($tenplate, $content, $data=null)
     {
-        // extract($data);
         ob_start();
         include('view/'.$tenplate.'.php');
         return ob_get_clean();
@@ -51,6 +49,4 @@ class Auth extends ATodo
             }
         }
     }
-
-
 }
