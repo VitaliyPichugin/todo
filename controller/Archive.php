@@ -15,8 +15,8 @@ class Archive extends ATodo {
 
         return $this->render('index', 'template_archive.php', array(
             'project' => $this->getProject(),
-            'task' => $this->getTaskGroup(),
-            'priority' => $this->getPriority(),
+            'task' => $this->getArchive(),
+           'priority' => $this->getPriority(),
             'title' => 'Archive',
             'ctnTd' => $this->getCntToday(),
             'ctnSd' => $this->getCntSevenDay(),
@@ -53,14 +53,19 @@ class Archive extends ATodo {
         return $this->con->countTaskArchive( $this->id);
     }
 
-    function getTaskGroup()
+    function getArchive(){
+        return $this->con->selectTaskArchive($this->id);
+    }
+
+/*    function getTaskGroup()
     {
         if ($_GET['id']) {
+            //архив по категориям
             return $this->con->getGroupTaskArchive( $_GET['id'], $this->id);
         } else {
             return $this->con->selectDatatUserArchive($this->id, 'task', date('d.m.Y'));
         }
-    }
+    }*/
 
     function getCntToday()
     {

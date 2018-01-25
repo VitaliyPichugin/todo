@@ -42,7 +42,7 @@ class Today extends ATodo
 
     function getProject()
     {
-        return $this->con->selectDatatUser($this->id, 'project');
+        return $this->con->selectProject($this->id);
     }
 
     function userId()
@@ -66,7 +66,7 @@ class Today extends ATodo
 
     function getPriority()
     {
-        return $this->con->selectDatatUser(null, 'priority');
+        return $this->con->selectDatatUser($this->id, 'priority');
     }
 
     function getCntToday()

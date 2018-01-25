@@ -9,22 +9,19 @@ jQuery(document).ready(function ($) {
         $('.content-center').css('height', $(window).height() + 'px');
     });
 
-    try {
-        $('#color-picker').colorpicker({
-            format: 'hex'
-        }).on('colorpickerChange colorpickerCreate', function (e) {
-            e.color.tetrad().forEach(function () {
-                $('#color-picker').css({
-                    backgroundColor: $('#color-picker').val(),
-                    color: $('#color-picker').val()
-                });
-                $('#color_hex').val($('#color-picker').val());
 
+    $('#color-picker').colorpicker({
+        format: 'hex'
+    }).on('colorpickerChange colorpickerCreate', function (e) {
+        e.color.tetrad().forEach(function () {
+            $('#color-picker').css({
+                backgroundColor: $('#color-picker').val(),
+                color: $('#color-picker').val()
             });
+            $('#color_hex').val($('#color-picker').val());
+
         });
-    }catch (ex){
-        console.log(ex);
-    }
+    });
 
     var toDay = $.datepicker.formatDate("dd M", new Date());
     var toDayField = $.datepicker.formatDate("dd.mm.yy", new Date());
@@ -37,7 +34,7 @@ jQuery(document).ready(function ($) {
             altFormat: "dd.mm.yy",
             dateFormat: 'dd M',
             constrainInput: true,
-           /* minDate: 0*/
+            /* minDate: 0*/
         });
     });
 
@@ -110,7 +107,7 @@ jQuery(document).ready(function ($) {
                     var res_proj = $(doom).find('#reload_project');
                     $('#reload_project').html(res_proj);
 
-                   // $('.hide_form_project, .hide_form_task').css('display', 'none');
+                    // $('.hide_form_project, .hide_form_task').css('display', 'none');
                     clear();
                 },
                 error: function (e) {
@@ -196,10 +193,9 @@ jQuery(document).ready(function ($) {
                         $('#reload_task').html(res_task);
 
                         var res_proj = $(doom).find('#reload_project');
-                        $('#reload_project').html(res_proj)
+                        $('#reload_project').html(res_proj);
                     },
                     error: function (e) {
-                        alert('err');
                         console.log(e)
                     }
                 });
@@ -217,6 +213,7 @@ jQuery(document).ready(function ($) {
                             color: $('#color-picker_edit').val()
                         });
                         $('#color_hex_edit').val($('#color-picker_edit').val());
+
                     });
                 });
                 $('.hide_form_project_edit').css('display', 'block');
@@ -224,7 +221,9 @@ jQuery(document).ready(function ($) {
                 $('.menu_edit_project').parents('li').css('background-color', 'white');
                 $(this).parents('li').css('background-color', '#ddb004');
                 var project_id = $(this).attr('id');
-                    $(document).on('click', '#editProject', function(e){
+                //var type = draw('circle',$('#color_hex_edit').val());
+                //$('#editProject').click(function (e) {
+                $(document).on('click', '#editProject', function(e){
                     e.preventDefault();
                     if ($('[name=editProject]').val() != '') {
                         $.ajax({
@@ -307,13 +306,14 @@ jQuery(document).ready(function ($) {
                                 var res_proj = $(doom).find('#reload_project');
                                 $('#reload_project').html(res_proj);
                                 $('.hide_form_project_edit, .hide_form_task_edit').css('display', 'none');
+                                clear();
                             },
                             error: function (e) {
                                 console.log(e)
                             }
                         });
                     }else {
-                       alert('selected not all');
+                        alert('selected not all');
                     }
                 });
             });
@@ -324,98 +324,98 @@ jQuery(document).ready(function ($) {
 
 function draw(figure, color) {
     var canvas ;
-        switch (figure){
-            case 'circle':
-                jQuery('body').append('<canvas style="width: 40px;  display: none" id="canvas_circle"></canvas>');
-                 canvas = document.getElementById('canvas_circle');
-                 context = canvas.getContext('2d');
-                context.beginPath();
-                context.arc(150, 75, 50, 0, 2*Math.PI, false);
-                context.fillStyle = color;
-                context.fill();
-                break;
-            case 'rectangle':
-                jQuery('body').append('<canvas style="width: 40px;  display: none" id="canvas_rect"></canvas>');
-                 canvas = document.getElementById('canvas_rect');
-                 context = canvas.getContext('2d');
-                context.rect(120,25,100,100);
-                context.fillStyle = color;
-                context.fill();
-                break;
-            case 'thunder':
-                jQuery('body').append('<canvas style="width: 40px;  display: none" id="canvas_th"></canvas>');
-                 canvas = document.getElementById('canvas_th');
-                var context = canvas.getContext('2d');
-                //todo
-                context.lineWidth = 10;
-                var obj ={
-                    line1: {
-                        moveTo: {x:177, y: 122},
-                        lineTo: {x: 222, y: 186}
-                    },
-                    line2: {
-                        moveTo: {x:222, y:186},
-                        lineTo: {x:178, y:173}
-                    },
-                    line3: {
-                        moveTo: {x:178, y:173},
-                        lineTo: {x:232, y:230}
-                    },
-                    line4: {
-                        moveTo: {x:232, y:230},
-                        lineTo: {x:192, y:211}
-                    },
-                    line5: {
-                        moveTo: {x:192, y:211},
-                        lineTo: {x:255, y:269}
-                    },
-                    line6: {
-                        moveTo: {x:255, y:269},
-                        lineTo: {x:242, y:223}
-                    },
-                    line7: {
-                        moveTo: {x:242, y:223},
-                        lineTo: {x:211, y:192}
+    switch (figure){
+        case 'circle':
+            jQuery('body').append('<canvas style="width: 40px;  display: none" id="canvas_circle"></canvas>');
+            canvas = document.getElementById('canvas_circle');
+            context = canvas.getContext('2d');
+            context.beginPath();
+            context.arc(150, 75, 50, 0, 2*Math.PI, false);
+            context.fillStyle = color;
+            context.fill();
+            break;
+        case 'rectangle':
+            jQuery('body').append('<canvas style="width: 40px;  display: none" id="canvas_rect"></canvas>');
+            canvas = document.getElementById('canvas_rect');
+            context = canvas.getContext('2d');
+            context.rect(120,25,100,100);
+            context.fillStyle = color;
+            context.fill();
+            break;
+        case 'thunder':
+            jQuery('body').append('<canvas style="width: 40px;  display: none" id="canvas_th"></canvas>');
+            canvas = document.getElementById('canvas_th');
+            var context = canvas.getContext('2d');
+            //todo
+            context.lineWidth = 10;
+            var obj ={
+                line1: {
+                    moveTo: {x:177, y: 122},
+                    lineTo: {x: 222, y: 186}
+                },
+                line2: {
+                    moveTo: {x:222, y:186},
+                    lineTo: {x:178, y:173}
+                },
+                line3: {
+                    moveTo: {x:178, y:173},
+                    lineTo: {x:232, y:230}
+                },
+                line4: {
+                    moveTo: {x:232, y:230},
+                    lineTo: {x:192, y:211}
+                },
+                line5: {
+                    moveTo: {x:192, y:211},
+                    lineTo: {x:255, y:269}
+                },
+                line6: {
+                    moveTo: {x:255, y:269},
+                    lineTo: {x:242, y:223}
+                },
+                line7: {
+                    moveTo: {x:242, y:223},
+                    lineTo: {x:211, y:192}
 
-                    },
-                    line8: {
-                        moveTo: {x:211, y:192},
-                        lineTo: {x:266, y:213}
+                },
+                line8: {
+                    moveTo: {x:211, y:192},
+                    lineTo: {x:266, y:213}
 
-                    },
-                    line9: {
-                        moveTo: {x:266, y:213},
-                        lineTo: {x:178, y:122}
-                    }
-                };
-                for(var line in obj){
-                    context.strokeStyle = color;
-                    context.beginPath();
-                    context.moveTo(obj[line].moveTo.x-70, obj[line].moveTo.y-120);
-                    context.lineTo(obj[line].lineTo.x-70, obj[line].lineTo.y-120);
-                    context.stroke();
-                    context.closePath();
+                },
+                line9: {
+                    moveTo: {x:266, y:213},
+                    lineTo: {x:178, y:122}
                 }
-                break;
-            case 'smile':{
-                jQuery('body').append('<canvas style="width: 40px;  display: none" id="canvas_smile"></canvas>');
-                 canvas = document.getElementById('canvas_smile');
-                var context = canvas.getContext('2d');
-                context.lineWidth = 10;
-                context.strokeStyle  = color;
+            };
+            for(var line in obj){
+                context.strokeStyle = color;
                 context.beginPath();
-                context.arc(75,75,50,0,Math.PI*2,true);
-                context.moveTo(110,75);
-                context.arc(75,75,35,0,Math.PI,false);
-                context.moveTo(65,65);
-                context.arc(60,65,5,0,Math.PI*2,true);
-                context.moveTo(95,65);
-                context.arc(90,65,5,0,Math.PI*2,true);
+                context.moveTo(obj[line].moveTo.x-70, obj[line].moveTo.y-120);
+                context.lineTo(obj[line].lineTo.x-70, obj[line].lineTo.y-120);
                 context.stroke();
-                break;
+                context.closePath();
             }
+            break;
+        case 'smile':{
+            jQuery('body').append('<canvas style="width: 40px;  display: none" id="canvas_smile"></canvas>');
+            canvas = document.getElementById('canvas_smile');
+            var context = canvas.getContext('2d');
+            context.lineWidth = 10;
+            context.strokeStyle  = color;
+            context.beginPath();
+            context.arc(75,75,50,0,Math.PI*2,true);
+            context.moveTo(110,75);
+            context.arc(75,75,35,0,Math.PI,false);
+            context.moveTo(65,65);
+            context.arc(60,65,5,0,Math.PI*2,true);
+            context.moveTo(95,65);
+            context.arc(90,65,5,0,Math.PI*2,true);
+            context.stroke();
+            break;
         }
-        return canvas.toDataURL("image/png");
+    }
+    return canvas.toDataURL("image/png");
 
 }
 

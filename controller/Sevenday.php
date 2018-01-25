@@ -25,7 +25,7 @@ class Sevenday extends ATodo {
             'task' => $this->getTaskGroup(),
             'priority' => $this->getPriority(),
             'expired' => $this->getExpiredTask(),
-            'title' => 'Today',
+            'title' => 'Next 7 Day',
             'ctnTd' => $this->getCntToday(),
             'ctnSd' => $this->getCntSeven(),
             'ctnAd' => $this->getCntArchive(),
@@ -42,7 +42,7 @@ class Sevenday extends ATodo {
 
     function getProject()
     {
-        return $this->con->selectDatatUserSeven($this->id, 'project');
+        return $this->con->selectProject($this->id);
     }
 
     function userId()
@@ -66,17 +66,19 @@ class Sevenday extends ATodo {
 
     function getPriority()
     {
-        return $this->con->selectDatatUserSeven(null, 'priority');
+        return $this->con->selectDatatUserSeven($this->id, 'priority');
     }
 
     function getCntToday()
     {
         return $this->con->countTask( $this->id);
     }
+
     function getCntSeven()
     {
         return $this->con->countTaskSeven( $this->id);
     }
+
     function getCntArchive()
     {
         return $this->con->countTaskArchive( $this->id);

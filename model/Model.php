@@ -17,8 +17,8 @@
          $this->pass = $pass;
          $this->db = $db;
 
-        /* $this->from = date(strtotime("+1 days"));
-         $this->to = date( strtotime("+7 days"));*/
+        $this->from = date('d.m.Y',strtotime("+1 days"));
+        $this->to = date('d.m.Y', strtotime("+7 days"));
 
          if (!$this->con) {
              $this->con = new mysqli($this->host, $this->user, $this->pass, $this->db);
@@ -29,7 +29,6 @@
      }
 
      //TODO CREATE SINGLES MODELS FOR SPECIFIC PAGES
-
 
      protected function login($login, $pass){
 
@@ -94,13 +93,18 @@
 
      protected function remove($id, $table){
          if($table == 'project'){
-             $count_task = $this->con->query("SELECT COUNT(1) FROM task WHERE `project_id` = $id")->fetch_array();
+             $count_task = $this->con->query("SELECT COUNT(1) FROM task WHERE `project_id` = $id AND `status` = 'Not done'")->fetch_array();
              if($count_task[0] == 0){
+                 $del_task = "DELETE FROM `task` WHERE `project_id` = $id";
                  $sql = "DELETE FROM $table WHERE id = $id";
-                 if ($this->con->query($sql)) {
-                     return true;
-                 } else return false;
-             }else return false;
+                 if ($this->con->query($del_task)) {
+                     if ($this->con->query($sql)) {
+                         return true;
+                     } else return false;
+                 }
+             }else{
+                 return false;
+             }
          }else {
              $sql = "DELETE FROM $table WHERE id = $id";
              if ($this->con->query($sql)) {
@@ -131,6 +135,15 @@
      /***********************/
 
      //data today
+     protected function selectProject($id){
+         $result = $this->con->query("SELECT * FROM `project` WHERE `user_id` = $id");
+         $res = [];
+         while ($row = $result->fetch_array()) {
+             $res[] = $row;
+         }
+         return $result;
+     }
+
      protected function selectDatatUser($id=null, $data, $date=null)
      {
          if ($data == 'task') {
@@ -188,14 +201,14 @@
      }
     //data today
 
-
      //data sevenday
      protected function selectDatatUserSeven($id=null, $data, $date=null)
      {
          if ($data == 'task') {
              if ($id != null && $date != null) {
                  $results = $this->con->query("SELECT * FROM $data WHERE `user_id` = $id 
-                      AND `date` >= '$date' AND status = 'Not done'  ORDER BY `priority_id` DESC");
+                      AND `date` >= '$date' 
+                      AND status = 'Not done'  ORDER BY `priority_id` DESC");
              } else {
                  $results = $this->con->query("SELECT * FROM $data AND status = 'Not done' ");
              }
@@ -206,7 +219,7 @@
          } else {
              if ($id != null && $date != null) {
                  $results = $this->con->query("SELECT * FROM $data WHERE `user_id` = $id 
-                      AND `date` = '$date' ORDER BY `priority_id` DESC");
+                      AND `date` >= '$date' ORDER BY `priority_id` DESC");
              } else {
                  $results = $this->con->query("SELECT * FROM $data ");
              }
@@ -237,6 +250,14 @@
      //data sevenday
 
     //data archive
+     protected function selectTaskArchive($id){
+         $result = $this->con->query("SELECT * FROM `task` WHERE user_id = $id AND `status` = 'Done'");
+         $res = [];
+         while ($row = $result->fetch_array()) {
+             $res[] = $row;
+         }
+         return $res;
+     }
      protected function selectDatatUserArchive($id=null, $data, $date=null)
      {
          if ($data == 'task') {
@@ -252,7 +273,7 @@
              }
          } else {
              if ($id != null && $date != null) {
-                 $results = $this->con->query("SELECT * FROM $data WHERE `user_id` = $id 
+                 $results = $this->con->query("SELECT * FROM $data WHERE `user_id` = $id AND status = 'Done'
                        ORDER BY `priority_id` DESC");
              } else {
                  $results = $this->con->query("SELECT * FROM $data ");
