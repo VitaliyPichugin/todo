@@ -19,6 +19,7 @@ class Sevenday extends ATodo {
         $this->delProject();
         $this->doneTask();
         $this->editTask();
+        $this->editProject();
         return $this->render('index', 'template.php', array(
             'project' => $this->getProject(),
             'task' => $this->getTaskGroup(),

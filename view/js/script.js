@@ -208,31 +208,22 @@ jQuery(document).ready(function ($) {
 
         $(this).find('.menu_edit_project').each(function () {
             $(this).click(function (e) {
-                try {
-                    $('#color-picker_edit').colorpicker({
-                        format: 'hex'
-                    }).on('colorpickerChange colorpickerCreate', function (e) {
-                        e.color.tetrad().forEach(function () {
-                            $('#color-picker_edit').css({
-                                backgroundColor: $('#color-picker_edit').val(),
-                                color: $('#color-picker_edit').val()
-                            });
-                            $('#color_hex_edit').val($('#color-picker_edit').val());
-
+                $('#color-picker_edit').colorpicker({
+                    format: 'hex'
+                }).on('colorpickerChange colorpickerCreate', function (e) {
+                    e.color.tetrad().forEach(function () {
+                        $('#color-picker_edit').css({
+                            backgroundColor: $('#color-picker_edit').val(),
+                            color: $('#color-picker_edit').val()
                         });
+                        $('#color_hex_edit').val($('#color-picker_edit').val());
                     });
-                }
-                catch(ex) {
-                    console.log(ex);
-                }
-
+                });
                 $('.hide_form_project_edit').css('display', 'block');
                 $('.hide_form_project').css('display', 'none');
                 $('.menu_edit_project').parents('li').css('background-color', 'white');
                 $(this).parents('li').css('background-color', '#ddb004');
                 var project_id = $(this).attr('id');
-                //var type = draw('circle',$('#color_hex_edit').val());
-                //$('#editProject').click(function (e) {
                     $(document).on('click', '#editProject', function(e){
                     e.preventDefault();
                     if ($('[name=editProject]').val() != '') {

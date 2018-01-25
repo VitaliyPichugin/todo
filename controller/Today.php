@@ -19,6 +19,7 @@ class Today extends ATodo
         $this->delProject();
         $this->doneTask();
         $this->editTask();
+        $this->editProject();
         return $this->render('index', 'template.php', array(
             'project' => $this->getProject(),
             'task' => $this->getTaskGroup(),
@@ -43,7 +44,6 @@ class Today extends ATodo
     {
         return $this->con->selectDatatUser($this->id, 'project');
     }
-
 
     function userId()
     {
@@ -128,6 +128,7 @@ class Today extends ATodo
         if ($_POST['send'] == 'project_edit_menu') {
             return $this->con->editMenuProject(
                 $_POST['edit_project'], $_POST['type'], $_POST['edit_id_project']
+
             );
         }else return false;
     }
