@@ -35,18 +35,18 @@ else {
             $obj = new Archive();
             break;
         }
-        case '/auth': {
+/*        case '/auth': {
             $obj = new Auth();
             break;
         }
         case '/auth/login': {
             $obj = new Auth();
             break;
-        }
-        case '/auth/registration': {
+        }*/
+ /*       case '/auth/registration': {
             $obj = new Auth();
             break;
-        }
+        }*/
         default: {
             $obj = new Today();
             break;

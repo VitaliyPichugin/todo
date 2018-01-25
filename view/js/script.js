@@ -38,26 +38,21 @@ jQuery(document).ready(function ($) {
         });
     });
 
-    window.addEventListener('click', function () {
-        $('.list_project_modal').each(function () {
-            $(this).click(function () {
-                $('.list_project_modal').css('background-color', 'white').removeClass('selected_modal_project');
-                $(this).css('background-color', 'grey').addClass('selected_modal_project');
-            });
+    $(document).on('click', 'body', function(e){
+        $(this).find('.list_project_modal').click(function () {
+            $('.list_project_modal').css('background-color', 'white').removeClass('selected_modal_project');
+            $(this).css('background-color', 'grey').addClass('selected_modal_project');
             $('[name=task_project]').val($('.selected_modal_project').attr('id'));
         });
-
-        $('.list_priority_modal').each(function () {
-            $(this).click(function () {
-                $('.list_priority_modal').css('background-color', 'white').removeClass('selected_modal_priority');
-                $(this).css('background-color', 'grey').addClass('selected_modal_priority');
-            });
+        $(this).find('.list_priority_modal').click(function () {
+            $('.list_priority_modal').css('background-color', 'white').removeClass('selected_modal_priority');
+            $(this).css('background-color', 'grey').addClass('selected_modal_priority');
             $('[name=task_priority]').val($('.selected_modal_priority').attr('id'));
         });
-
     });
 
-    $('[name=addProject]').click(function (e) {
+
+    $('[name=addProject]').on('click',function (e) {
         e.preventDefault();
         var color = $('#color_hex').val();
         var src = draw('circle', color);
@@ -71,11 +66,13 @@ jQuery(document).ready(function ($) {
                     type: src
                 },
                 success: function (html) {
-                    $('body').html(html);
                     var doom = '<html>' + html;
+                    var res_task = $(doom).find('#reload_task');
+                    $('#reload_task').html(res_task);
+
                     var res_proj = $(doom).find('#reload_project');
                     $('#reload_project').html(res_proj);
-                    $('[name=add_project]').val();
+                    clear();
                 },
                 error: function (e) {
                     console.log(e)
@@ -86,7 +83,7 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    $('[name=addTask]').click(function (e) {
+    $('[name=addTask]').on('click', function (e) {
         e.preventDefault();
         if ($('[name=add_task]').val() != '' && $('[name=task_project]').val() != '' && $('[name=task_prioriry]').val() != '') {
             $.ajax({
@@ -106,8 +103,6 @@ jQuery(document).ready(function ($) {
 
                     var res_proj = $(doom).find('#reload_project');
                     $('#reload_project').html(res_proj);
-
-                    // $('.hide_form_project, .hide_form_task').css('display', 'none');
                     clear();
                 },
                 error: function (e) {
