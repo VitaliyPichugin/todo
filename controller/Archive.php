@@ -13,7 +13,6 @@ class Archive extends ATodo {
     {
         $this->id = $this->con->getUserId();
 
-        //  echo $this->getCntTask();
         return $this->render('index', 'template_archive.php', array(
             'project' => $this->getProject(),
             'task' => $this->getTaskGroup(),
@@ -51,13 +50,13 @@ class Archive extends ATodo {
 
     function getCntTask()
     {
-        return $this->con->countTaskArchive(date('d.m.Y'), $this->id);
+        return $this->con->countTaskArchive( $this->id);
     }
 
     function getTaskGroup()
     {
         if ($_GET['id']) {
-            return $this->con->getGroupTaskArchive(date('d.m.Y'), $_GET['id'], $this->id);
+            return $this->con->getGroupTaskArchive( $_GET['id'], $this->id);
         } else {
             return $this->con->selectDatatUserArchive($this->id, 'task', date('d.m.Y'));
         }
@@ -70,7 +69,7 @@ class Archive extends ATodo {
 
     function getCntSevenDay()
     {
-        return $this->con->countTaskSevenDay( $this->id);
+        return $this->con->countTaskSeven( $this->id);
     }
 
     function getCntArchive()

@@ -191,7 +191,6 @@ jQuery(document).ready(function ($) {
                         del_id_project: $(this).attr('id')
                     },
                     success: function (html) {
-                        alert('ok');
                         var doom = '<html>' + html;
                         var res_task = $(doom).find('#reload_task');
                         $('#reload_task').html(res_task);
@@ -317,7 +316,6 @@ jQuery(document).ready(function ($) {
                                 var res_proj = $(doom).find('#reload_project');
                                 $('#reload_project').html(res_proj);
                                 $('.hide_form_project_edit, .hide_form_task_edit').css('display', 'none');
-                                clear();
                             },
                             error: function (e) {
                                 console.log(e)

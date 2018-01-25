@@ -23,9 +23,10 @@ class Sevenday extends ATodo {
             'project' => $this->getProject(),
             'task' => $this->getTaskGroup(),
             'priority' => $this->getPriority(),
-            'title' => 'Next 7 Day',
+            'expired' => $this->getExpiredTask(),
+            'title' => 'Today',
             'ctnTd' => $this->getCntToday(),
-            'ctnSd' => $this->getCntSevenDay(),
+            'ctnSd' => $this->getCntSeven(),
             'ctnAd' => $this->getCntArchive(),
         ));
     }
@@ -40,7 +41,7 @@ class Sevenday extends ATodo {
 
     function getProject()
     {
-        return $this->con->selectDatatUser($this->id, 'project');
+        return $this->con->selectDatatUserSeven($this->id, 'project');
     }
 
     function userId()
@@ -64,16 +65,16 @@ class Sevenday extends ATodo {
 
     function getPriority()
     {
-        return $this->con->selectDatatUser(null, 'priority');
+        return $this->con->selectDatatUserSeven(null, 'priority');
     }
 
     function getCntToday()
     {
         return $this->con->countTask( $this->id);
     }
-    function getCntSevenDay()
+    function getCntSeven()
     {
-        return $this->con->countTaskSevenDay( $this->id);
+        return $this->con->countTaskSeven( $this->id);
     }
     function getCntArchive()
     {
@@ -83,10 +84,14 @@ class Sevenday extends ATodo {
     function getTaskGroup()
     {
         if ($_GET['id']) {
-            return $this->con->getTaskSeven( $_GET['id'], $this->id);
+            return $this->con->getGroupTaskSeven(date('d.m.Y'), $_GET['id'], $this->id);
         } else {
             return $this->con->selectDatatUserSeven($this->id, 'task', date('d.m.Y'));
         }
+    }
+
+    function getExpiredTask(){
+        return $this->con->expiredTask($this->id);
     }
 
     function delTask()
@@ -99,10 +104,9 @@ class Sevenday extends ATodo {
     function delProject()
     {
         if ($_POST['del_id_project']) {
-            return $this->con->remove($_POST['del_id'], 'project');
+            return $this->con->remove($_POST['del_id_project'], 'project');
         } else return false;
     }
-
 
     function doneTask(){
         if($_POST['done_id']){
@@ -111,7 +115,7 @@ class Sevenday extends ATodo {
     }
 
     function editTask(){
-        if($_POST['task_edit']){
+        if($_POST['send'] == 'task_edit'){
             return $this->con->edit(
                 $_POST['edit_id'], $_POST['edit_task'], $_POST['project_id'], $_POST['priority_id'], $_POST['date']
             );
@@ -126,5 +130,6 @@ class Sevenday extends ATodo {
             );
         }else return false;
     }
+
 
 }

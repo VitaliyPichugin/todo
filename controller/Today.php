@@ -44,10 +44,6 @@ class Today extends ATodo
         return $this->con->selectDatatUser($this->id, 'project');
     }
 
-    /*    function getTask()
-        {
-            return $this->con->selectDatatUser($this->id, 'task', date('d.m.Y'));
-        }*/
 
     function userId()
     {
@@ -79,7 +75,7 @@ class Today extends ATodo
     }
     function getCntSevenDay()
     {
-        return $this->con->countTaskSevenDay( $this->id);
+        return $this->con->countTaskSeven( $this->id);
     }
     function getCntArchive()
     {

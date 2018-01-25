@@ -2,7 +2,7 @@
     <div class="col-md-3 tbl-left" >
         <div id="reload_project">
             <ul class="list-group"  >
-                <li class="list-group-item"><a href="/today">Today (<? if($data['ctnTd']) ?>)</a></li>
+                <li class="list-group-item"><a href="/today">Today (<?=$data['ctnTd']?>)</a></li>
                 <li class="list-group-item"><a href="/sevenday">Nex 7 Day (<?=$data['ctnSd']?>)</a></li>
                 <li class="list-group-item"><a href="/archive">Archive (<?=$data['ctnAd']?>)</a></li>
             </ul>
@@ -15,7 +15,7 @@
             </div>
             <ul class="list-group">
                 <div id="reload_task">
-                    <? if(count($data['task'])>1): ?>
+                    <? if($data['task']): ?>
                         <?foreach ($data['task'] as $key=> $val):?>
                             <?foreach ($data['project'] as $k=> $v):?>
                                 <?foreach ($data['priority'] as $p):?>

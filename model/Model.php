@@ -17,8 +17,8 @@
          $this->pass = $pass;
          $this->db = $db;
 
-         $this->from = date('d.m.Y', strtotime("+1 days"));
-         $this->to = date('d.m.Y', strtotime("+7 days"));
+        /* $this->from = date(strtotime("+1 days"));
+         $this->to = date( strtotime("+7 days"));*/
 
          if (!$this->con) {
              $this->con = new mysqli($this->host, $this->user, $this->pass, $this->db);
@@ -55,44 +55,6 @@
          }else return true;
      }
 
-     protected function selectDatatUser($id=null, $data, $date=null)
-     {
-         if ($data == 'task') {
-             if ($id != null && $date != null) {
-                 $results = $this->con->query("SELECT * FROM $data WHERE `user_id` = $id 
-                      AND `date` <= '$date' AND status = 'Not done'  ORDER BY `priority_id` DESC");
-             } else {
-                 $results = $this->con->query("SELECT * FROM $data AND status = 'Not done' ");
-             }
-             $res = [];
-             while ($row = $results->fetch_array()) {
-                 $res[] = $row;
-             }
-         } else {
-             if ($id != null && $date != null) {
-                 $results = $this->con->query("SELECT * FROM $data WHERE `user_id` = $id 
-                      AND `date` = '$date' ORDER BY `priority_id` DESC");
-             } else {
-                 $results = $this->con->query("SELECT * FROM $data ");
-             }
-             $res = [];
-             while ($row = $results->fetch_array()) {
-                 $res[] = $row;
-             }
-         }
-         return $res;
-     }
-
-     protected function getGroupTask($date, $idProject, $id){
-         $results = $this->con->query("SELECT * FROM `task` WHERE `user_id` = $id 
-                      AND `date` <='$date' AND `project_id` = $idProject ORDER BY `priority_id` DESC");
-         $res = [];
-         while($row = $results->fetch_array()) {
-             $res[] = $row;
-         }
-         return $res;
-     }
-
      protected function getUserId()
      {
          $login = $_SESSION['user']['login'];
@@ -122,31 +84,13 @@
              die('Error (' . $stmt->errno . ') ' . $stmt->error);
          }else return true;
      }
-
-     protected function countTask( $id){
-         $date = date('d.m.Y');
-         $results = $this->con->query("SELECT COUNT(1) FROM task WHERE `user_id` = $id AND `date` <='$date' AND status = 'Not done' ");
-         $res = $results->fetch_array();
-         return $res[0];
-     }
-
-     protected function expiredTask($id){
-         $date = date('d.m.Y');
-         $results = $this->con->query("SELECT * FROM `task` WHERE `user_id` = $id 
-                      AND `date` < '$date' AND status = 'Not done'  ORDER BY `priority_id` DESC");
-         $res = [];
-         while ($row = $results->fetch_array()) {
-             $res[] = $row;
-         }
-         return $res;
-     }
-
+     /**********************/
      protected function done($id){
          $sql = "UPDATE `task` SET `status` = 'Done' WHERE `id` = $id";
          if($this->con->query($sql)){
              return true;
          }else return false;
-      }
+     }
 
      protected function remove($id, $table){
          if($table == 'project'){
@@ -166,7 +110,7 @@
      }
 
      protected function edit($id, $name, $project_id, $priority_id, $date){
-          $stmt = $this->con->stmt_init();
+         $stmt = $this->con->stmt_init();
          if(($stmt->prepare("UPDATE `task` SET `name_task` = ?, `project_id` = ?, `priority_id` = ?, `date` = ? WHERE `id` = ?") === FALSE)
              or ($stmt->bind_param('siisi', $name, $project_id, $priority_id, $date, $id) === FALSE)
              or ($stmt->execute() === FALSE)
@@ -175,23 +119,94 @@
          }else return true;
      }
 
+     protected function editMenuProject($name, $type, $id){
+         $stmt = $this->con->stmt_init();
+         if(($stmt->prepare("UPDATE `project` SET `name_project` = ?, `type` = ? WHERE `id` = ?") === FALSE)
+             or ($stmt->bind_param('ssi', $name, $type, $id) === FALSE)
+             or ($stmt->execute() === FALSE)
+         ) {
+             die('Error (' . $stmt->errno . ') ' . $stmt->error);
+         }else return true;
+     }
+     /***********************/
+
+     //data today
+     protected function selectDatatUser($id=null, $data, $date=null)
+     {
+         if ($data == 'task') {
+             if ($id != null && $date != null) {
+                 $results = $this->con->query("SELECT * FROM $data WHERE `user_id` = $id 
+                      AND `date` <= '$date' AND status = 'Not done'  ORDER BY `priority_id` DESC");
+             } else {
+                 $results = $this->con->query("SELECT * FROM $data AND status = 'Not done' ");
+             }
+             $res = [];
+             while ($row = $results->fetch_array()) {
+                 $res[] = $row;
+             }
+         } else {
+             if ($id != null && $date != null) {
+                 $results = $this->con->query("SELECT * FROM $data WHERE `user_id` = $id 
+                      AND `date` = '$date' ORDER BY `priority_id` DESC");
+             } else {
+                 $results = $this->con->query("SELECT * FROM $data ");
+             }
+             $res = [];
+             while ($row = $results->fetch_array()) {
+                 $res[] = $row;
+             }
+         }
+         return $res;
+     }
+
+     protected function getGroupTask($date, $idProject, $id){
+         $results = $this->con->query("SELECT * FROM `task` WHERE `user_id` = $id  AND `status` = 'Not done'
+                      AND `date` <='$date' AND `project_id` = $idProject ORDER BY `priority_id` DESC");
+         $res = [];
+         while($row = $results->fetch_array()) {
+             $res[] = $row;
+         }
+         return $res;
+     }
+
+     protected function countTask( $id){
+         $date = date('d.m.Y');
+         $results = $this->con->query("SELECT COUNT(1) FROM task WHERE `user_id` = $id AND `date` <='$date' AND status = 'Not done' ");
+         $res = $results->fetch_array();
+         return $res[0];
+     }
+
+     protected function expiredTask($id){
+         $date = date('d.m.Y');
+         $results = $this->con->query("SELECT * FROM `task` WHERE `user_id` = $id 
+                      AND `date` < '$date' AND status = 'Not done'  ORDER BY `priority_id` DESC");
+         $res = [];
+         while ($row = $results->fetch_array()) {
+             $res[] = $row;
+         }
+         return $res;
+     }
+    //data today
+
+
+     //data sevenday
      protected function selectDatatUserSeven($id=null, $data, $date=null)
      {
          if ($data == 'task') {
-             if($id != null && $date != null){
+             if ($id != null && $date != null) {
                  $results = $this->con->query("SELECT * FROM $data WHERE `user_id` = $id 
-                      AND `date` BETWEEN '$this->from' AND '$this->to' AND status = 'Not done'  ORDER BY `priority_id` DESC");
-             }else{
-                 $results = $this->con->query("SELECT * FROM $data AND status = 'Not done'");
+                      AND `date` >= '$date' AND status = 'Not done'  ORDER BY `priority_id` DESC");
+             } else {
+                 $results = $this->con->query("SELECT * FROM $data AND status = 'Not done' ");
              }
              $res = [];
-             while($row = $results->fetch_array()) {
+             while ($row = $results->fetch_array()) {
                  $res[] = $row;
              }
          } else {
              if ($id != null && $date != null) {
                  $results = $this->con->query("SELECT * FROM $data WHERE `user_id` = $id 
-                      AND `date` BETWEEN '$this->from' AND '$this->to' ORDER BY `priority_id` DESC");
+                      AND `date` = '$date' ORDER BY `priority_id` DESC");
              } else {
                  $results = $this->con->query("SELECT * FROM $data ");
              }
@@ -203,18 +218,9 @@
          return $res;
      }
 
-     protected function countTaskSevenDay( $id){
-
-         $results = $this->con->query("SELECT COUNT(1) FROM task WHERE `user_id` = $id AND `date`
-          BETWEEN '$this->from' AND '$this->to' AND status = 'Not done' ");
-         $res = $results->fetch_array();
-         return $res[0];
-     }
-
-     protected function getTaskSeven( $idProject, $id){
-         $results = $this->con->query("SELECT * FROM `task` WHERE `user_id` = $id 
-                      AND `date` BETWEEN '$this->from' AND '$this->to' AND `project_id` = $idProject AND status = 'Not done'
-                       ORDER BY `priority_id` DESC");
+     protected function getGroupTaskSeven($date, $idProject, $id){
+         $results = $this->con->query("SELECT * FROM `task` WHERE `user_id` = $id  AND `status` = 'Not done'
+                      AND `date` => '$date' AND `project_id` = $idProject ORDER BY `priority_id` DESC");
          $res = [];
          while($row = $results->fetch_array()) {
              $res[] = $row;
@@ -222,23 +228,32 @@
          return $res;
      }
 
+     protected function countTaskSeven( $id){
+         $date = date('d.m.Y');
+         $results = $this->con->query("SELECT COUNT(1) FROM task WHERE `user_id` = $id AND `date` >= '$date' AND status = 'Not done' ");
+         $res = $results->fetch_array();
+         return $res[0];
+     }
+     //data sevenday
+
+    //data archive
      protected function selectDatatUserArchive($id=null, $data, $date=null)
      {
          if ($data == 'task') {
-             if($id != null && $date != null){
+             if ($id != null && $date != null) {
                  $results = $this->con->query("SELECT * FROM $data WHERE `user_id` = $id 
-                       AND status = 'Done'  ORDER BY `priority_id` DESC");
-             }else{
-                 $results = $this->con->query("SELECT * FROM $data AND status = 'Done'");
+                      AND status = 'Done'  ORDER BY `priority_id` DESC");
+             } else {
+                 $results = $this->con->query("SELECT * FROM $data AND status = 'Done' ");
              }
              $res = [];
-             while($row = $results->fetch_array()) {
+             while ($row = $results->fetch_array()) {
                  $res[] = $row;
              }
          } else {
              if ($id != null && $date != null) {
                  $results = $this->con->query("SELECT * FROM $data WHERE `user_id` = $id 
-                      ORDER BY `priority_id` DESC");
+                       ORDER BY `priority_id` DESC");
              } else {
                  $results = $this->con->query("SELECT * FROM $data ");
              }
@@ -250,9 +265,9 @@
          return $res;
      }
 
-     protected function getGroupTaskArchive($date, $idProject, $id){
-         $results = $this->con->query("SELECT * FROM `task` WHERE `user_id` = $id 
-                      AND `status` = 'Done' AND `project_id` = $idProject ORDER BY `priority_id` DESC");
+     protected function getGroupTaskArchive( $idProject, $id){
+         $results = $this->con->query("SELECT * FROM `task` WHERE `user_id` = $id  AND `status` = 'Done'
+                       AND `project_id` = $idProject ORDER BY `priority_id` DESC");
          $res = [];
          while($row = $results->fetch_array()) {
              $res[] = $row;
@@ -260,22 +275,11 @@
          return $res;
      }
 
-     protected function countTaskArchive($id){
-
-         $results = $this->con->query("SELECT COUNT(1) FROM task WHERE `user_id` = $id AND status = 'Done' ");
+     protected function countTaskArchive( $id){
+         $results = $this->con->query("SELECT COUNT(1) FROM task WHERE `user_id` = $id  AND status = 'Done' ");
          $res = $results->fetch_array();
          return $res[0];
      }
-
-     protected function editMenuProject($name, $type, $id){
-              $stmt = $this->con->stmt_init();
-              if(($stmt->prepare("UPDATE `project` SET `name_project` = ?, `type` = ? WHERE `id` = ?") === FALSE)
-                      or ($stmt->bind_param('ssi', $name, $type, $id) === FALSE)
-                  or ($stmt->execute() === FALSE)
-              ) {
-                      die('Error (' . $stmt->errno . ') ' . $stmt->error);
-                  }else return true;
-      }
-
+     //data archive
 
 }
