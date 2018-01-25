@@ -17,7 +17,7 @@
          $this->pass = $pass;
          $this->db = $db;
 
-         $this->from = date('d.m.Y');
+         $this->from = date('d.m.Y', strtotime("+7 days"));
          $this->to = date('d.m.Y', strtotime("+7 days"));
 
          if (!$this->con) {

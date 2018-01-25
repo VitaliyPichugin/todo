@@ -17,6 +17,10 @@ li{
     padding: 0;
 }
 
+li:hover{
+    cursor: pointer;
+}
+
 img{
     width:  40px;
 }

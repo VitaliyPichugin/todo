@@ -9,19 +9,22 @@ jQuery(document).ready(function ($) {
         $('.content-center').css('height', $(window).height() + 'px');
     });
 
+    try {
+        $('#color-picker').colorpicker({
+            format: 'hex'
+        }).on('colorpickerChange colorpickerCreate', function (e) {
+            e.color.tetrad().forEach(function () {
+                $('#color-picker').css({
+                    backgroundColor: $('#color-picker').val(),
+                    color: $('#color-picker').val()
+                });
+                $('#color_hex').val($('#color-picker').val());
 
-    $('#color-picker').colorpicker({
-        format: 'hex'
-    }).on('colorpickerChange colorpickerCreate', function (e) {
-        e.color.tetrad().forEach(function () {
-            $('#color-picker').css({
-                backgroundColor: $('#color-picker').val(),
-                color: $('#color-picker').val()
             });
-            $('#color_hex').val($('#color-picker').val());
-
         });
-    });
+    }catch (ex){
+        console.log(ex);
+    }
 
     var toDay = $.datepicker.formatDate("dd M", new Date());
     var toDayField = $.datepicker.formatDate("dd.mm.yy", new Date());
@@ -172,7 +175,6 @@ jQuery(document).ready(function ($) {
 
                         var res_proj = $(doom).find('#reload_project');
                         $('#reload_project').html(res_proj);
-                        $(this).detachEvent('click');
                     },
                     error: function (e) {
                         console.log(e)
@@ -189,15 +191,16 @@ jQuery(document).ready(function ($) {
                         del_id_project: $(this).attr('id')
                     },
                     success: function (html) {
+                        alert('ok');
                         var doom = '<html>' + html;
                         var res_task = $(doom).find('#reload_task');
                         $('#reload_task').html(res_task);
 
                         var res_proj = $(doom).find('#reload_project');
-                        $('#reload_project').html(res_proj);
-                        $(this).detachEvent('click');
+                        $('#reload_project').html(res_proj)
                     },
                     error: function (e) {
+                        alert('err');
                         console.log(e)
                     }
                 });
@@ -206,18 +209,24 @@ jQuery(document).ready(function ($) {
 
         $(this).find('.menu_edit_project').each(function () {
             $(this).click(function (e) {
-                $('#color-picker_edit').colorpicker({
-                    format: 'hex'
-                }).on('colorpickerChange colorpickerCreate', function (e) {
-                    e.color.tetrad().forEach(function () {
-                        $('#color-picker_edit').css({
-                            backgroundColor: $('#color-picker_edit').val(),
-                            color: $('#color-picker_edit').val()
-                        });
-                        $('#color_hex_edit').val($('#color-picker_edit').val());
+                try {
+                    $('#color-picker_edit').colorpicker({
+                        format: 'hex'
+                    }).on('colorpickerChange colorpickerCreate', function (e) {
+                        e.color.tetrad().forEach(function () {
+                            $('#color-picker_edit').css({
+                                backgroundColor: $('#color-picker_edit').val(),
+                                color: $('#color-picker_edit').val()
+                            });
+                            $('#color_hex_edit').val($('#color-picker_edit').val());
 
+                        });
                     });
-                });
+                }
+                catch(ex) {
+                    console.log(ex);
+                }
+
                 $('.hide_form_project_edit').css('display', 'block');
                 $('.hide_form_project').css('display', 'none');
                 $('.menu_edit_project').parents('li').css('background-color', 'white');
