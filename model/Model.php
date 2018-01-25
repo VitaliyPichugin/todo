@@ -17,7 +17,7 @@
          $this->pass = $pass;
          $this->db = $db;
 
-         $this->from = date('d.m.Y', strtotime("+7 days"));
+         $this->from = date('d.m.Y', strtotime("+1 days"));
          $this->to = date('d.m.Y', strtotime("+7 days"));
 
          if (!$this->con) {
@@ -29,6 +29,7 @@
      }
 
      //TODO CREATE SINGLES MODELS FOR SPECIFIC PAGES
+
 
      protected function login($login, $pass){
 
@@ -54,7 +55,8 @@
          }else return true;
      }
 
-     protected function selectDatatUser($id=null, $data, $date=null){
+     protected function selectDatatUser($id=null, $data, $date=null)
+     {
          if ($data == 'task') {
              if ($id != null && $date != null) {
                  $results = $this->con->query("SELECT * FROM $data WHERE `user_id` = $id 
@@ -91,7 +93,8 @@
          return $res;
      }
 
-     protected function getUserId(){
+     protected function getUserId()
+     {
          $login = $_SESSION['user']['login'];
          $pass = $_SESSION['user']['password'];
          $results = $this->con->query("SELECT id FROM user WHERE login = '$login' AND password = '$pass' ");
@@ -147,18 +150,13 @@
 
      protected function remove($id, $table){
          if($table == 'project'){
-             $count_task = $this->con->query("SELECT COUNT(1) FROM task WHERE `project_id` = $id AND `status` = 'Not done'")->fetch_array();
+             $count_task = $this->con->query("SELECT COUNT(1) FROM task WHERE `project_id` = $id")->fetch_array();
              if($count_task[0] == 0){
-                 $del_task = "DELETE FROM `task` WHERE `project_id` = $id";
                  $sql = "DELETE FROM $table WHERE id = $id";
-                 if ($this->con->query($del_task)) {
-                     if ($this->con->query($sql)) {
-                         return true;
-                     } else return false;
-                 }
-             }else{
-                 return false;
-             }
+                 if ($this->con->query($sql)) {
+                     return true;
+                 } else return false;
+             }else return false;
          }else {
              $sql = "DELETE FROM $table WHERE id = $id";
              if ($this->con->query($sql)) {
@@ -177,24 +175,12 @@
          }else return true;
      }
 
-     protected function editMenuProject($name, $type, $id){
-         $stmt = $this->con->stmt_init();
-         if(($stmt->prepare("UPDATE `project` SET `name_project` = ?, `type` = ? WHERE `id` = ?") === FALSE)
-             or ($stmt->bind_param('ssi', $name, $type, $id) === FALSE)
-             or ($stmt->execute() === FALSE)
-         ) {
-             die('Error (' . $stmt->errno . ') ' . $stmt->error);
-         }else return true;
-     }
-
-     protected function selectDatatUserSeven($id=null, $data, $date=null){
-
+     protected function selectDatatUserSeven($id=null, $data, $date=null)
+     {
          if ($data == 'task') {
              if($id != null && $date != null){
-                 $results = $this->con->query("SELECT * FROM $data WHERE 
-                DATE(`date`) BETWEEN DATE(NOW()) AND DATE_ADD(DATE(NOW()), INTERVAL 5 DAY) 
-                AND `user_id` = $id 
-                      AND status = 'Not done'  ORDER BY `priority_id` DESC");
+                 $results = $this->con->query("SELECT * FROM $data WHERE `user_id` = $id 
+                      AND `date` BETWEEN '$this->from' AND '$this->to' AND status = 'Not done'  ORDER BY `priority_id` DESC");
              }else{
                  $results = $this->con->query("SELECT * FROM $data AND status = 'Not done'");
              }
@@ -218,10 +204,9 @@
      }
 
      protected function countTaskSevenDay( $id){
-         $from = $this->from;
-         $to = $this->from;
+
          $results = $this->con->query("SELECT COUNT(1) FROM task WHERE `user_id` = $id AND `date`
-          BETWEEN '$from' AND '$to' AND status = 'Not done' ");
+          BETWEEN '$this->from' AND '$this->to' AND status = 'Not done' ");
          $res = $results->fetch_array();
          return $res[0];
      }
@@ -265,7 +250,7 @@
          return $res;
      }
 
-     protected function getGroupTaskArchive( $idProject, $id){
+     protected function getGroupTaskArchive($date, $idProject, $id){
          $results = $this->con->query("SELECT * FROM `task` WHERE `user_id` = $id 
                       AND `status` = 'Done' AND `project_id` = $idProject ORDER BY `priority_id` DESC");
          $res = [];
@@ -276,9 +261,21 @@
      }
 
      protected function countTaskArchive($id){
+
          $results = $this->con->query("SELECT COUNT(1) FROM task WHERE `user_id` = $id AND status = 'Done' ");
          $res = $results->fetch_array();
          return $res[0];
      }
+
+     protected function editMenuProject($name, $type, $id){
+              $stmt = $this->con->stmt_init();
+              if(($stmt->prepare("UPDATE `project` SET `name_project` = ?, `type` = ? WHERE `id` = ?") === FALSE)
+                      or ($stmt->bind_param('ssi', $name, $type, $id) === FALSE)
+                  or ($stmt->execute() === FALSE)
+              ) {
+                      die('Error (' . $stmt->errno . ') ' . $stmt->error);
+                  }else return true;
+      }
+
 
 }

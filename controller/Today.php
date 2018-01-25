@@ -127,12 +127,13 @@ class Today extends ATodo
         }else return false;
     }
 
-    function editProject(){
-        if($_POST['send'] == 'project_edit_menu'){
+    function editProject()
+    {
+        if ($_POST['send'] == 'project_edit_menu') {
             return $this->con->editMenuProject(
                 $_POST['edit_project'], $_POST['type'], $_POST['edit_id_project']
             );
-        }
+        }else return false;
     }
 
 

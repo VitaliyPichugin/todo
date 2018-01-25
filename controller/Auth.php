@@ -46,9 +46,11 @@ class Auth extends ATodo
                     $_SESSION['user']['login'] = $_POST['login'];
                     $_SESSION['user']['password'] = $_POST['password'];
                     $_SESSION['auth'] = true;
+                    header('Location: http://todo/');
                 }
             }
         }
     }
+
 
 }

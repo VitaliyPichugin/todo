@@ -103,6 +103,7 @@ class Sevenday extends ATodo {
         } else return false;
     }
 
+
     function doneTask(){
         if($_POST['done_id']){
             return $this->con->done($_POST['done_id']);
@@ -117,12 +118,13 @@ class Sevenday extends ATodo {
         }else return false;
     }
 
-    function editProject(){
-        if($_POST['send'] == 'project_edit_menu'){
+    function editProject()
+    {
+        if ($_POST['send'] == 'project_edit_menu') {
             return $this->con->editMenuProject(
                 $_POST['edit_project'], $_POST['type'], $_POST['edit_id_project']
             );
-        }
+        }else return false;
     }
 
 }
