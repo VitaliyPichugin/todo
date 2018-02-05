@@ -127,15 +127,15 @@ jQuery(document).ready(function ($) {
             $(this).css('display', 'none');
         });
     });
-
-    $('.link_task').each(function () {  //todo
+    $('.link_task').each(function (d) {  //todo
         $('body').on('click', '.link_task', function(e){
             var self = $(this);
             $.ajax({
-                method: 'GET',
+                method: 'POST',
                 url: 'index.php',
                 data: {
-                    id: self.attr('id')
+                    id: self.attr('id'),
+                    href: window.location.href
                 },
                 success: function (html) {
                     var doom = '<html>' + html;
@@ -418,6 +418,7 @@ function draw(figure, color) {
     return canvas.toDataURL("image/png");
 
 }
+
 
 function hideFormTask() {
     $('.content').on('click', '.add_task', function () {

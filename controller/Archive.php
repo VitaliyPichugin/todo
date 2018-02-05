@@ -21,6 +21,7 @@ class Archive extends ATodo {
             'ctnTd' => $this->getCntToday(),
             'ctnSd' => $this->getCntSevenDay(),
             'ctnAd' => $this->getCntArchive(),
+            'cntExp' => $this->cntExpiredTask()
         ));
     }
 
@@ -50,6 +51,10 @@ class Archive extends ATodo {
     function getCntTask()
     {
         return $this->con->countTaskArchive( $this->id);
+    }
+
+    function cntExpiredTask(){
+        return $this->con->countExpiredTask($this->id);
     }
 
     function getArchive(){

@@ -4,16 +4,11 @@
             <?foreach ($data['priority'] as $p):?>
                 <?if($val['project_id'] == $v['id']):?>
                     <?if($val['priority_id'] == $p['id']):?>
-                        <?if($val['date'] >= date('d.m.Y')):?>
                             <li class="list-group-item" >
                                 <a id="name_task">
                                     <img name="<?=$p['id']?>" src="<?=$p['type']?>">
                                     <span class="name_task"><?=$val['name_task']?></span>
-                                    <? if($val['status'] == 'Not done'): ?>
-                                        <span style="color: darkgoldenrod">(<?=$val['status']?>)</span>
-                                    <?else:?>
-                                        <span style="color: green">(<?=$val['status']?>)</span>
-                                    <? endif;?>
+                                    <span>(<?=$val['status']?>)</span>
                                 </a>
                                 <div style="float: right" class="dropdown">
                                     <span><?=$v['name_project']?></span>
@@ -28,8 +23,8 @@
                             </li>
                         <? endif;?>
                     <? endif;?>
-                <? endif;?>
             <?endforeach;?>
         <?endforeach;?>
     <?endforeach;?>
 <? endif;?>
+

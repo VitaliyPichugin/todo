@@ -31,6 +31,7 @@ class Today extends ATodo
             'ctnTd' => $this->getCntToday(),
             'ctnSd' => $this->getCntSevenDay(),
             'ctnAd' => $this->getCntArchive(),
+            'cntExp' => $this->cntExpiredTask()
         ));
 
     }
@@ -76,19 +77,25 @@ class Today extends ATodo
     {
         return $this->con->countTask( $this->id);
     }
+
     function getCntSevenDay()
     {
         return $this->con->countTaskSeven( $this->id);
     }
+
     function getCntArchive()
     {
         return $this->con->countTaskArchive( $this->id);
     }
 
+    function cntExpiredTask(){
+        return $this->con->countExpiredTask($this->id);
+    }
+
     function getTaskGroup()
     {
-        if ($_GET['id']) {
-            return $this->con->getGroupTask(date('d.m.Y'), $_GET['id'], $this->id);
+        if ($_POST['id'] ) {
+            return $this->con->getGroupTask($_POST['id'], $this->id,  $_POST['href']);
         } else {
             return $this->con->selectDatatUser($this->id, 'task', date('d.m.Y'));
         }

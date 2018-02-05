@@ -2,7 +2,7 @@
     <div class="col-md-3 tbl-left" >
         <div id="reload_project" class="page_link">
             <ul class="list-group"  >
-                <li class="list-group-item"><a href="/today">Today (<?=$data['ctnTd']?>)</a></li>
+                <li class="list-group-item"><a href="/today">Today (<?=$data['ctnTd']?>)/(<span style="color: red"><?=$data['cntExp']?></span>)</a></li>
                 <li class="list-group-item"><a href="/sevenday">Nex 7 Day (<?=$data['ctnSd']?>)</a></li>
                 <li class="list-group-item"><a href="/archive">Archive (<?=$data['ctnAd']?>)</a></li>
             </ul>

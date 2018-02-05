@@ -13,6 +13,7 @@ class Sevenday extends ATodo {
     public function templateMethod()
     {
         $this->id = $_SESSION['uid'];
+
         $this->projectAdd();
         $this->taskAdd();
         $this->delTask();
@@ -24,11 +25,11 @@ class Sevenday extends ATodo {
             'project' => $this->getProject(),
             'task' => $this->getTaskGroup(),
             'priority' => $this->getPriority(),
-            'expired' => $this->getExpiredTask(),
             'title' => 'Next 7 Day',
             'ctnTd' => $this->getCntToday(),
             'ctnSd' => $this->getCntSeven(),
             'ctnAd' => $this->getCntArchive(),
+            'cntExp' => $this->cntExpiredTask()
         ));
     }
 
@@ -84,10 +85,14 @@ class Sevenday extends ATodo {
         return $this->con->countTaskArchive( $this->id);
     }
 
+    function cntExpiredTask(){
+        return $this->con->countExpiredTask($this->id);
+    }
+
     function getTaskGroup()
     {
-        if ($_GET['id']) {
-            return $this->con->getGroupTaskSeven(date('d.m.Y'), $_GET['id'], $this->id);
+        if ($_POST['id'] ) {
+            return $this->con->getGroupTask( $_POST['id'], $this->id, $_POST['href']);
         } else {
             return $this->con->selectDatatUserSeven($this->id, 'task', date('d.m.Y'));
         }
